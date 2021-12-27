@@ -155,6 +155,7 @@
     user-select: none;
     box-sizing: border-box;
     padding: 1em 1.15em;
+    z-index: 50;
 
     &:not(.card--show) {
       display: none;

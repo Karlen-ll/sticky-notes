@@ -3,6 +3,7 @@ import React from 'react';
 // Style
 import './Footer.scss';
 
+// Types & interfaces
 export interface FooterProps {
   countOfNotes: number;
 }

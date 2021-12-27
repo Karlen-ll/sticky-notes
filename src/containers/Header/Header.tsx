@@ -4,8 +4,8 @@ import {throttle} from 'lodash';
 // Style
 import './Header.scss';
 
-// Constants
-import {NEW_NOTE_DATA, NEW_NOTE_HEIGHT, NEW_NOTE_WIDTH, SM_THROTTLE_TIME} from '../../global/constants';
+// Constants, Types & interfaces
+import {NEW_NOTE_DATA, NEW_NOTE_HEIGHT, NEW_NOTE_WIDTH, SM_THROTTLE_TIME} from '@global/constants';
 
 // Utils
 import {dispatchEvent} from '@utils/index';

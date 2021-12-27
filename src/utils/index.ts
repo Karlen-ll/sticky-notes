@@ -1,4 +1,4 @@
-import {dragEvent} from '../global/events';
+import {dragEvent} from '@global/events';
 
 /**
  * @description Dispatch document event

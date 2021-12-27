@@ -1,4 +1,4 @@
-import {Notes} from '../global/notes';
+import {Notes} from '@global/notes';
 
 // Helpers
 const STORAGE_NOTES_KEY = 'notes';

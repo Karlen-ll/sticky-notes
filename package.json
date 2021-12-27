@@ -5,12 +5,13 @@
     "name": "Pireverdiev Karlen",
     "email": "karlen-ll@yandex.ru"
   },
-  "description": "Test. Sticky-Notes. React, TypeScript",
+  "description": "Sticky-Notes. React, TypeScript, SASS",
   "private": true,
   "scripts": {
     "start": "react-app-rewired start --scripts-version",
     "build": "react-app-rewired build --scripts-version",
-    "prettier": "prettier --write \"./**/*.{ts,tsx,json,css,scss}\"",
+    "prettier": "prettier --write \"./**/*.{js,jsx,ts,tsx,json,css,scss}\"",
+    "eslint": "eslint --ext .js,.jsx,.ts,.tsx .",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },

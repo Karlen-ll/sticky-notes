@@ -7,6 +7,7 @@ $silver: #dbdbdb;
 $light: #ebedf3;
 $white: #fff;
 
+// Colors for cards
 $green: #7bc86c;
 $yellow: #f5dd29;
 $orange: #ffaf3f;
@@ -18,6 +19,7 @@ $lime: #6deca9;
 $pink: #ff8ed4;
 $night: #172b4d;
 
+// Lists
 $color-list: (
   'red': $red,
   'blue': $blue,
@@ -44,15 +46,16 @@ $color-list-inverse: (
   'purple': $black,
 );
 
+// Button, link & text
 $primary: #0079bf;
 
-// font
+// Font
 $font: #202020;
 
-// header
+// Header
 $header: #fff;
 $workspace: #fff;
 
-// background
+// Background
 $background: #f8f8f8;
 $card-list-bg: transparent;

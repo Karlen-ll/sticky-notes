@@ -1,19 +1,19 @@
 import React, {useState} from 'react';
+import {throttle} from 'lodash';
 import cx from 'classnames';
 
 // Style
 import './CardList.scss';
 
-// Types
-import {Note, Notes} from '../../global/notes';
+// Constants, Types & interfaces
+import {SECTION_ARCHIVE, SM_THROTTLE_TIME, THROTTLE_TIME} from '@global/constants';
+import {Note, Notes} from '@global/notes';
 
-// Constants
-import {SECTION_ARCHIVE, SM_THROTTLE_TIME, THROTTLE_TIME} from '../../global/constants';
+// Utils
+import {dispatchEvent} from '@utils/index';
 
 // Components
 import Card from '@components/Card';
-import {throttle} from 'lodash';
-import {dispatchEvent} from '@utils/index';
 import Icon from '@components/common/Icon';
 
 // Types & Interfaces

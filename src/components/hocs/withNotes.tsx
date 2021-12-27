@@ -2,7 +2,7 @@ import React, {Component, ComponentType} from 'react';
 import {findIndex} from 'lodash';
 
 // Types
-import {Note, Notes, NoteSection, editableDataOfNote} from '../../global/notes';
+import {Note, Notes, NoteSection, editableDataOfNote} from '@global/notes';
 
 // Utils
 import {getNotes, saveNotes} from '@utils/localStorage';

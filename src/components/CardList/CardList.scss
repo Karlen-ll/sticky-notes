@@ -32,13 +32,16 @@
     margin: 0 0 0.75em;
   }
 
-  &__wrapper {
-    top: 4.5em;
-    left: 1em;
-    width: calc(100% - 2em);
-    height: calc(100% - 4.5em);
-    position: absolute;
+  &__scroll-box {
+    flex: 1 0;
+    position: relative;
+    padding: 5px 10px 10px;
+    margin: 0 -10px;
     overflow-x: hidden;
+  }
+
+  &__wrapper {
+    height: 100%;
 
     .card {
       margin-bottom: 8px;

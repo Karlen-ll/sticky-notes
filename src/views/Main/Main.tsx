@@ -22,7 +22,7 @@ import Footer from '@containers/Footer';
 import Header from '@containers/Header/';
 import Workspace from '@containers/Workspace/';
 import CardList from '@components/CardList/';
-import DemoCard from '@components/Card/DemoCard';
+import {DemoCard} from '@components/Card';
 import Modal from '@components/Modal';
 
 // Helpers

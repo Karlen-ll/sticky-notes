@@ -67,27 +67,29 @@ function CardList({
         <span className="card-list__description">{items.length} notes</span>
       </header>
 
-      {!isLoading && (
-        <div
-          className={cx('card-list__wrapper', {'card-list__wrapper--drop': hasDragMode})}
-          onMouseEnter={hasHandlers ? handleMouseEnter : undefined}
-          onMouseLeave={hasHandlers ? handleMouseLeave : undefined}
-          onMouseUp={hasHandlers ? handleMouseUp : undefined}
-        >
-          {items.map(
-            item =>
-              item && (
-                <Card
-                  data={item}
-                  isDraggable={item.id === draggableItem?.id}
-                  isActiveDragMode={isActiveDragMode && !isDropContainer}
-                  isArchived={isArchiveContainer}
-                  key={item.id}
-                />
-              ),
-          )}
-        </div>
-      )}
+      <div className="card-list__scroll-box">
+        {!isLoading && (
+          <div
+            className={cx('card-list__wrapper', {'card-list__wrapper--drop': hasDragMode})}
+            onMouseEnter={hasHandlers ? handleMouseEnter : undefined}
+            onMouseLeave={hasHandlers ? handleMouseLeave : undefined}
+            onMouseUp={hasHandlers ? handleMouseUp : undefined}
+          >
+            {items.map(
+              item =>
+                item && (
+                  <Card
+                    data={item}
+                    isDraggable={item.id === draggableItem?.id}
+                    isActiveDragMode={isActiveDragMode && !isDropContainer}
+                    isArchived={isArchiveContainer}
+                    key={item.id}
+                  />
+                ),
+            )}
+          </div>
+        )}
+      </div>
 
       {isLoading && <Icon name="loader" />}
     </section>

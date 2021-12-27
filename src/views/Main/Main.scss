@@ -31,11 +31,14 @@
           display: none;
         }
 
-        &__wrapper {
-          top: 3em;
-          display: flex;
-          overflow-y: hidden;
+        &__scroll-box {
           overflow-x: auto;
+          overflow-y: hidden;
+          padding-bottom: 0;
+        }
+
+        &__wrapper {
+          display: flex;
         }
       }
 

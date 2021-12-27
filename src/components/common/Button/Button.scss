@@ -42,4 +42,17 @@
   &:active {
     transform: translateY(1px);
   }
+
+  &--disabled {
+    cursor: default;
+
+    &,
+    &:hover {
+      background-color: color.$darkGray;
+    }
+
+    &:active {
+      transform: none;
+    }
+  }
 }

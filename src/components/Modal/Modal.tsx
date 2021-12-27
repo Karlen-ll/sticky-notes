@@ -5,7 +5,7 @@ import './Modal.scss';
 
 // Constants, types & interfaces
 import {COLORS, SIZES} from '../../global/constants';
-import {editableDataOfNote} from '../../global/notes';
+import {editableDataOfNote, NotePicker} from '../../global/notes';
 
 // Components
 import Input from '@components/controls/Input';
@@ -27,11 +27,6 @@ export interface ModalProps {
 const Modal = ({data: {data: note, left: x, top: y, width}, onSave, onClose}: ModalProps) => {
   const [data, dataSet] = useState<editableDataOfNote | null>({...note});
 
-  const style = {
-    transform: `translate(${x}px, ${y}px)`,
-    width: `${width}px`,
-  };
-
   const handleOverlayClick = (event: MouseEvent) => {
     if (event.target && (event.target as HTMLDivElement).classList.contains('modal')) {
       onClose(event);
@@ -52,7 +47,7 @@ const Modal = ({data: {data: note, left: x, top: y, width}, onSave, onClose}: Mo
     });
   };
 
-  const checkPickerValue = (value: string, key: 'color' | 'size') => {
+  const checkPickerValue = (value: string, key: NotePicker) => {
     return {
       ...data,
       [key]: value !== DEFAULT_PICKER_VALUE ? value : undefined,
@@ -69,7 +64,13 @@ const Modal = ({data: {data: note, left: x, top: y, width}, onSave, onClose}: Mo
 
   return (
     <div className="modal" onClick={handleOverlayClick}>
-      <div className="modal__container" style={style}>
+      <div
+        className="modal__container"
+        style={{
+          transform: `translate(${x}px, ${y}px)`,
+          width: `${width}px`,
+        }}
+      >
         <div className="modal__form">
           <Input
             className="modal__input"
@@ -105,7 +106,13 @@ const Modal = ({data: {data: note, left: x, top: y, width}, onSave, onClose}: Mo
             onChange={handleSizePickerChange}
           />
 
-          <Button className="modal__save-button" type="submit" onClick={() => (data ? onSave(data) : undefined)}>
+          <Button
+            className="modal__save-button"
+            type="submit"
+            onClick={() => (data ? onSave(data) : undefined)}
+            tabIndex={0}
+            disabled={!data?.title}
+          >
             Save
           </Button>
 

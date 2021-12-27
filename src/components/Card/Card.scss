@@ -120,7 +120,7 @@
 
         .card {
           &__id {
-            color: fade-out($value, 0.3)
+            color: fade-out($value, 0.3);
           }
 
           &__edit-button {

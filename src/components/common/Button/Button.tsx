@@ -19,6 +19,7 @@ interface ButtonProps {
   type?: 'button' | 'submit' | 'reset' | undefined;
   label?: string;
   disabled?: boolean;
+  tabIndex?: number;
   children?: JSX.Element | JSX.Element[] | string;
   onClick?: (event: MouseEvent) => void;
 }
@@ -55,7 +56,7 @@ const Button = ({
       role="button"
       type={tagName === 'button' ? type : undefined}
       aria-label={label}
-      onClick={onClick}
+      onClick={!disabled ? onClick : undefined}
       {...restProps}
     >
       {Children.map(children, child => child)}

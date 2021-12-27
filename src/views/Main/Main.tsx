@@ -55,7 +55,7 @@ function Main({
   archiveNote,
 }: withNotesProps) {
   const [draggable, draggableSet] = useState<dragStartEvent | null>(null);
-  const [modalState, modalStateSet] = useState<dragEditEvent | null>(null);
+  const [modalData, modalDataSet] = useState<dragEditEvent | null>(null);
 
   const refDraggableItem = useRef<HTMLDivElement>(null);
 
@@ -77,15 +77,15 @@ function Main({
   };
 
   const handleEdit = ({detail}: CustomEvent<dragEditEvent>) => {
-    modalStateSet(detail);
+    modalDataSet(detail);
   };
 
   const handleEditNote = useCallback(
     (newData: editableDataOfNote) => {
-      if (newData && modalState) editNote(modalState.data.id, newData);
-      modalStateSet(null);
+      if (newData && modalData) editNote(modalData.data.id, newData);
+      modalDataSet(null);
     },
-    [modalState, editNote],
+    [modalData, editNote],
   );
 
   const handleStartDrag = ({detail}: CustomEvent<dragStartEvent>) => {
@@ -119,7 +119,7 @@ function Main({
   const handleMouseUp = () => setTimeout(() => draggableSet(null), 10);
   const handleMouseLeave = () => draggableSet(null);
 
-  const handleModalClose = useCallback(() => modalStateSet(null), []);
+  const handleModalClose = useCallback(() => modalDataSet(null), []);
 
   /** useEffects */
 
@@ -192,7 +192,7 @@ function Main({
 
       <Footer countOfNotes={notes.length + archive.length} />
 
-      {modalState && <Modal data={modalState} onSave={handleEditNote} onClose={handleModalClose} />}
+      {modalData && <Modal data={modalData} onSave={handleEditNote} onClose={handleModalClose} />}
     </div>
   );
 }

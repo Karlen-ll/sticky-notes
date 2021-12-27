@@ -5,7 +5,7 @@ import {throttle} from 'lodash';
 import './Header.scss';
 
 // Constants, Types & interfaces
-import {NEW_NOTE_DATA, NEW_NOTE_HEIGHT, NEW_NOTE_WIDTH, SM_THROTTLE_TIME} from '@global/constants';
+import {CREATE_NOTE_CAPTION, NEW_NOTE_DATA, NEW_NOTE_HEIGHT, NEW_NOTE_WIDTH, SM_THROTTLE_TIME} from '@global/constants';
 
 // Utils
 import {dispatchEvent} from '@utils/index';
@@ -36,7 +36,7 @@ function Header() {
       <Logo />
 
       <div className="header__create-button" onMouseDown={handleMouseDown}>
-        Drag to create note
+        {CREATE_NOTE_CAPTION}
       </div>
     </header>
   );

@@ -79,6 +79,6 @@ export async function createNotes(): Promise<Note> {
       id: ++id,
       title: 'New note',
     },
-    FETCH_TIME / 2,
+    FETCH_TIME / 3,
   );
 }

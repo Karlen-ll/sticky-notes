@@ -6,7 +6,7 @@ import cx from 'classnames';
 import './CardList.scss';
 
 // Constants, Types & interfaces
-import {SECTION_ARCHIVE, SM_THROTTLE_TIME, THROTTLE_TIME} from '@global/constants';
+import {NOTES, SECTION_ARCHIVE, SM_THROTTLE_TIME, THROTTLE_TIME} from '@global/constants';
 import {Note, Notes} from '@global/notes';
 
 // Utils
@@ -64,7 +64,9 @@ function CardList({
     <section className={cx('card-list', `card-list--${title}`, className)}>
       <header className="card-list__header">
         <span className="card-list__title">{title}</span>
-        <span className="card-list__description">{items.length} notes</span>
+        <span className="card-list__description">
+          {items.length} {NOTES}
+        </span>
       </header>
 
       <div className="card-list__scroll-box">

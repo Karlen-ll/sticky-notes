@@ -1,6 +1,11 @@
 @use '../../style/_color.scss';
+@use '../../style/_variable.scss';
 
 .card-list {
+  $list-offset: 8px;
+  $scroll-offset: 10px;
+  $border-radius: variable.$card-border-radius;
+
   width: 100%;
   height: 100%;
   max-width: 512px;
@@ -9,7 +14,8 @@
   flex-direction: column;
   background-color: color.$card-list-bg;
   background-clip: border-box;
-  border-radius: 0.4rem;
+  border-radius: $border-radius;
+  box-sizing: border-box;
   position: relative;
   padding: 0.75em 1em;
   overflow: hidden;
@@ -35,8 +41,8 @@
   &__scroll-box {
     flex: 1 0;
     position: relative;
-    padding: 5px 10px 10px;
-    margin: 0 -10px;
+    padding: ($scroll-offset / 2) $scroll-offset $scroll-offset;
+    margin: 0 -$scroll-offset;
     overflow-x: hidden;
   }
 
@@ -44,34 +50,24 @@
     height: 100%;
 
     .card {
-      margin-bottom: 8px;
+      margin-bottom: $list-offset;
 
       &:last-child {
         margin-bottom: 0;
       }
     }
 
-    $pattern-color: fade-out(color.$black, 0.1);
-    $pattern-bg: color.$background;
-
     &--drop {
       &:after {
         content: '';
-        top: -8px;
-        left: -8px;
+        top: -$list-offset;
+        left: -$list-offset;
         right: 0;
         bottom: 0;
         position: absolute;
-        border-radius: 0.4rem;
-
+        border-radius: $border-radius;
         background-color: fade-out(color.$black, 0.9);
-        background: repeating-linear-gradient(
-          45deg,
-          $pattern-color,
-          $pattern-color 2px,
-          $pattern-bg 2px,
-          $pattern-bg 10px
-        );
+        background: color.$pattern;
         opacity: 0.6;
       }
     }

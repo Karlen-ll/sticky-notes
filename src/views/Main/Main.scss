@@ -1,12 +1,16 @@
 @use '../../style/_color.scss';
+@use '../../style/_variable.scss';
 
 .page {
   height: 100%;
   display: flex;
   flex-direction: column;
 
+  $card-margin: 8px;
+  $card-min-height: 65px;
+
   &__row {
-    min-height: calc(3.5em + 62px);
+    min-height: calc(3.5em + #{$card-min-height});
     flex: 1 0;
     display: flex;
     margin-bottom: 1em;
@@ -45,7 +49,7 @@
       .card {
         min-width: 256px;
         max-width: 300px;
-        margin: 0 8px 8px 0;
+        margin: 0 $card-margin $card-margin 0;
         opacity: 0.75;
 
         &__title {
@@ -67,7 +71,7 @@
 
       .#{$wrapper} {
         .card:last-child {
-          margin-bottom: 8px;
+          margin-bottom: $card-margin;
         }
       }
     }

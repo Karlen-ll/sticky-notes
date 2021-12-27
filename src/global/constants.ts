@@ -17,3 +17,8 @@ export const NEW_NOTE_DATA = {
 
 export const COLORS = ['green', 'yellow', 'orange', 'red', 'purple', 'blue', 'aqua', 'lime', 'pink', 'night'];
 export const SIZES = ['sm', 'lg'];
+
+/** Text */
+export const NOTES = 'notes';
+export const CREATE_NOTE_CAPTION = 'Drag to create note';
+export const COPYRIGHT = '2021 © Pireverdiev Karlen';

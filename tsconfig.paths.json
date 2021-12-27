@@ -5,8 +5,11 @@
       "@components/*": ["src/components/*"],
       "@containers/*": ["src/containers/*"],
       "@assets/*": ["src/assets/*"],
+      "@global/*": ["src/global/*"],
       "@utils/*": ["src/utils/*"],
-      "@style/*": ["src/style/*"]
+      "@style/*": ["src/style/*"],
+      "@views/*": ["src/views/*"],
+      "@api/*": ["src/api/*"],
     }
   }
 }

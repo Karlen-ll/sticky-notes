@@ -3,7 +3,7 @@ import React, {Children} from 'react';
 // Style
 import './Workspace.scss';
 
-// Interface
+// Types & interfaces
 export interface WorkspaceProps {
   children?: JSX.Element | JSX.Element[];
 }

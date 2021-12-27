@@ -4,8 +4,8 @@ import cx from 'classnames';
 // Style
 import './Card.scss';
 
-// Types
-import {Note} from '../../global/notes';
+// Constants, Types & interfaces
+import {Note} from '@global/notes';
 
 // Components
 import CardInner from '@components/Card/CardInner';

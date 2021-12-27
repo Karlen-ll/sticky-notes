@@ -5,7 +5,7 @@ import ReactDOM from 'react-dom';
 import './style/index.scss';
 
 // Components
-import Main from './views/Main';
+import Main from '@views/Main';
 import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(

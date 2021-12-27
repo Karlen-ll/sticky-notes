@@ -4,12 +4,12 @@ import React, {useCallback, useEffect, useRef, useState} from 'react';
 import './Main.scss';
 
 // Constants, Types & interfaces
-import {MAIN_SECTIONS, SECTION_ARCHIVE} from '../../global/constants';
-import {dragEditEvent, dragEndEvent, dragStartEvent} from '../../global/events';
-import {editableDataOfNote} from '../../global/notes';
+import {MAIN_SECTIONS, SECTION_ARCHIVE} from '@global/constants';
+import {dragEditEvent, dragEndEvent, dragStartEvent} from '@global/events';
+import {editableDataOfNote} from '@global/notes';
 
 // Api
-import {createNotes, fetchArchiveNotes, fetchNotes} from '../../api/notes';
+import {createNotes, fetchArchiveNotes, fetchNotes} from '@api/notes';
 
 // Utils
 import {saveNotes} from '@utils/localStorage';

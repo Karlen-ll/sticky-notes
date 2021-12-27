@@ -5,11 +5,9 @@ import cx from 'classnames';
 // Style
 import './Card.scss';
 
-// Types
-import {Note} from '../../global/notes';
-
-// Constants
-import {SM_THROTTLE_TIME, THROTTLE_TIME} from '../../global/constants';
+// Constants, Types & interfaces
+import {Note} from '@global/notes';
+import {SM_THROTTLE_TIME, THROTTLE_TIME} from '@global/constants';
 
 // Utils
 import {dispatchEvent} from '@utils/index';

@@ -4,8 +4,9 @@ import React, {ChangeEvent, MouseEvent, FormEvent, useState} from 'react';
 import './Modal.scss';
 
 // Constants, types & interfaces
-import {COLORS, SIZES} from '../../global/constants';
-import {editableDataOfNote, NotePicker} from '../../global/notes';
+import {COLORS, SIZES} from '@global/constants';
+import {editableDataOfNote, NotePicker} from '@global/notes';
+import {dragEditEvent} from '@global/events';
 
 // Components
 import Input from '@components/controls/Input';
@@ -13,7 +14,6 @@ import Textarea from '@components/controls/Textarea';
 import Picker from '@components/controls/Picker';
 import Button from '@components/common/Button';
 import Icon from '@components/common/Icon';
-import {dragEditEvent} from '../../global/events';
 
 // Helpers
 const DEFAULT_PICKER_VALUE = 'default';
@@ -108,10 +108,10 @@ const Modal = ({data: {data: note, left: x, top: y, width}, onSave, onClose}: Mo
 
           <Button
             className="modal__save-button"
-            type="submit"
             onClick={() => (data ? onSave(data) : undefined)}
-            tabIndex={0}
             disabled={!data?.title}
+            type="submit"
+            tabIndex={0}
           >
             Save
           </Button>

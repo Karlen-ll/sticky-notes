@@ -7,8 +7,10 @@ import './Card.scss';
 // Utils
 import {dispatchEvent} from '@utils/index';
 
-// Types
-import {Note} from '../../global/notes';
+// Constants, Types & interfaces
+import {Note} from '@global/notes';
+
+// Components
 import Button from '@components/common/Button';
 import Icon from '@components/common/Icon';
 

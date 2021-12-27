@@ -1,3 +1,4 @@
+import {FunctionComponent, SVGProps} from 'react';
 import cx from 'classnames';
 
 // Style
@@ -11,7 +12,6 @@ import {ReactComponent as IconHeart} from '@assets/icons/heart.svg';
 import {ReactComponent as IconCopy} from '@assets/icons/copy.svg';
 import {ReactComponent as IconPlus} from '@assets/icons/plus.svg';
 import {ReactComponent as IconPen} from '@assets/icons/pen.svg';
-import {FunctionComponent, SVGProps} from 'react';
 
 // Types & Interfaces
 type Icons = 'loader' | 'close' | 'check' | 'heart' | 'copy' | 'plus' | 'pen';

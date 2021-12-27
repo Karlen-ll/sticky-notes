@@ -1,4 +1,4 @@
-import {Note, Notes} from '../global/notes';
+import {Note, Notes} from '@global/notes';
 
 // Helpers
 const FETCH_TIME = 2000;

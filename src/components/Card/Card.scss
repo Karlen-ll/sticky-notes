@@ -1,0 +1,179 @@
+@use '../../style/_color.scss';
+
+.card {
+  $black: fade-out(color.$black, 0.9);
+  $border-radius: 0.4em;
+
+  min-width: 0;
+  word-wrap: break-word;
+  background-color: #fff;
+  background-clip: border-box;
+  box-shadow: 0 0 0.5em 0 $black;
+  transition: background-color 0.2s;
+  border-radius: $border-radius;
+  position: relative;
+  user-select: none;
+  padding: 1em 1.25em;
+
+  &::after,
+  &::before {
+    left: -10px;
+    height: 2px;
+    width: calc(100% + 20px);
+    position: absolute;
+    background-color: fade-out(color.$black, 0.5);
+  }
+
+  &__id,
+  &__title,
+  &__label,
+  &__description {
+    transition: opacity 0.2s;
+  }
+
+  &--draggable {
+    background-color: $black;
+
+    .card {
+      &__id,
+      &__title,
+      &__label,
+      &__description {
+        opacity: 0;
+        user-select: none;
+        pointer-events: none;
+      }
+    }
+  }
+
+  &__title {
+    display: block;
+    font-size: 1.25em;
+    padding-right: 1.5em;
+    position: relative;
+    margin: 0 0 0.5em;
+    z-index: 15;
+
+    &:last-child {
+      margin: 0;
+    }
+  }
+
+  &__description {
+    position: relative;
+    z-index: 10;
+  }
+
+  &__menu {
+    position: relative;
+    z-index: 20;
+  }
+
+  &__id {
+    color: color.$gray;
+    font-size: 0.8em;
+    vertical-align: text-bottom;
+    margin-right: 0.35em;
+  }
+
+  &__label {
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: 8px;
+    position: absolute;
+    border-radius: $border-radius $border-radius 0 0;
+    z-index: 5;
+  }
+
+  // Operations with $color-list
+  @each $name, $value in color.$color-list {
+    &--#{$name} {
+      .card__label {
+        background-color: $value;
+      }
+    }
+  }
+
+  &__edit-button {
+    top: 0;
+    right: 0;
+    width: 1.875em;
+    height: 1.875em;
+    position: absolute;
+    opacity: 0;
+  }
+
+  // Modifications
+
+  &--lg {
+    .card__label {
+      height: 100%;
+      border-radius: $border-radius;
+    }
+
+    // Operations with $color-list
+    @each $name, $value in color.$color-list-inverse {
+      &.card--#{$name} {
+        color: $value;
+
+        .card {
+          &__id {
+            color: fade-out($value, 0.3)
+          }
+
+          &__edit-button {
+            .icon {
+              fill: fade-out($value, 0.4);
+            }
+          }
+        }
+      }
+    }
+  }
+
+  &--over {
+    &::before {
+      content: '';
+      top: -5px;
+    }
+  }
+
+  &--under {
+    &::after {
+      content: '';
+      bottom: -5px;
+    }
+  }
+
+  &--demo {
+    top: 0;
+    left: 0;
+    position: fixed;
+    pointer-events: none;
+    user-select: none;
+    box-sizing: border-box;
+    padding: 1em 1.15em;
+
+    &:not(.card--show) {
+      display: none;
+    }
+
+    &.card--archived {
+      .card__title {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+    }
+  }
+
+  &:not(&--draggable):not(&--over):not(&--under) {
+    &:hover {
+      .card__edit-button {
+        opacity: 1;
+      }
+    }
+  }
+}

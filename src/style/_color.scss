@@ -1,0 +1,58 @@
+$dark: #000;
+$black: #202020;
+$darkGray: #4b4b4b;
+$dimGray: #808080;
+$gray: #879295;
+$silver: #dbdbdb;
+$light: #ebedf3;
+$white: #fff;
+
+$green: #7bc86c;
+$yellow: #f5dd29;
+$orange: #ffaf3f;
+$red: #ef7564;
+$purple: #cd8de5;
+$blue: #5ba4cf;
+$aqua: #29cce5;
+$lime: #6deca9;
+$pink: #ff8ed4;
+$night: #172b4d;
+
+$color-list: (
+  'red': $red,
+  'blue': $blue,
+  'aqua': $aqua,
+  'lime': $lime,
+  'pink': $pink,
+  'green': $green,
+  'night': $night,
+  'orange': $orange,
+  'yellow': $yellow,
+  'purple': $purple,
+);
+
+$color-list-inverse: (
+  'red': $dark,
+  'blue': $black,
+  'aqua': $black,
+  'lime': $black,
+  'pink': $black,
+  'green': $black,
+  'night': $white,
+  'orange': $black,
+  'yellow': $black,
+  'purple': $black,
+);
+
+$primary: #0079bf;
+
+// font
+$font: #202020;
+
+// header
+$header: #fff;
+$workspace: #fff;
+
+// background
+$background: #f8f8f8;
+$card-list-bg: transparent;

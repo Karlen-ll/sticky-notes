@@ -1,0 +1,14 @@
+const path = require("path");
+
+module.exports = function override(config, env) {
+  config.resolve.alias = {
+    ...config.resolve.alias,
+    "@components": path.resolve(`./src/components`),
+    "@containers": path.resolve(`./src/containers`),
+    "@assets": path.resolve(`./src/assets`),
+    "@utils": path.resolve(`./src/utils`),
+    "@style": path.resolve(`./src/style`),
+  };
+
+  return config;
+};

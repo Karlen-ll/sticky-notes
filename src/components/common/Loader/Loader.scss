@@ -1,0 +1,74 @@
+@use '../../style/_color.scss';
+
+.logo {
+  display: flex;
+  justify-content: center;
+  user-select: none;
+
+  &__svg {
+    width: 2em;
+    height: 2em;
+    vertical-align: middle;
+    transition: transform 0.25s;
+    margin-right: 0.5em;
+
+    // paths: note__bg, note__bg, border, text, pen
+    > path {
+      transition: fill 0.35s;
+
+      @media (prefers-reduced-motion: no-preference) {
+        transition: none;
+      }
+    }
+  }
+
+  &__title {
+    font-size: 1.25em;
+    font-weight: bold;
+    color: color.$dark;
+  }
+
+  &:hover,
+  &--edit {
+    .logo__svg {
+      transform: scale(1.2) rotate(360deg) translateX(-2.5%);
+
+      > path {
+        // border
+        &:nth-child(5) {
+          fill: lighten(color.$dark, 10%);
+        }
+
+        // text
+        &:nth-child(4) {
+          opacity: 0;
+        }
+
+        // pen
+        &:last-child {
+          opacity: 1;
+          transform-origin: 30px center;
+          animation: swing 1s both infinite;
+        }
+      }
+    }
+  }
+}
+
+@keyframes swing {
+  20% {
+    transform: rotate3d(0, 0, 1, 6deg);
+  }
+  40% {
+    transform: rotate3d(0, 0, 1, -3deg) translateX(1px);
+  }
+  60% {
+    transform: rotate3d(0, 0, 1, 8deg) translateX(2px);
+  }
+  80% {
+    transform: rotate3d(0, 0, 1, -2deg) translateX(3px);
+  }
+  100% {
+    transform: rotate3d(0, 0, 1, 0deg);
+  }
+}

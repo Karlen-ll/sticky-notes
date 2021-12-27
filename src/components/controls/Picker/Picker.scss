@@ -1,0 +1,146 @@
+@use '../../../style/_color.scss';
+
+.picker {
+  user-select: none;
+  color: color.$white;
+
+  $size: 24px;
+  $border: 2px;
+  $margin: 10px;
+
+  &__fieldset {
+    border-width: 0;
+    padding: 0;
+  }
+
+  &__legend {
+    white-space: nowrap;
+    margin-bottom: 0.2em;
+  }
+
+  &__list {
+    display: flex;
+    padding: 4px;
+
+    .picker__item {
+      margin-right: $margin;
+
+      &:last-child {
+        margin-right: 0;
+      }
+    }
+  }
+
+  &__item {
+    margin: 0;
+
+    &--default {
+      span {
+        $color-bg: color.$white;
+        $color-line: color.$dark;
+
+        background: $color-bg;
+        background: linear-gradient(-45deg, $color-bg 47%, $color-line 47%, $color-line 52%, $color-bg 52%);
+      }
+    }
+  }
+
+  &__label {
+    font-size: 0;
+    cursor: pointer;
+
+    > span {
+      width: 24px;
+      height: 24px;
+      display: block;
+      outline-offset: 2px;
+      outline-color: transparent;
+      outline-width: 2px;
+      outline-style: solid;
+      transition: transform 0.25s;
+      margin: 0;
+    }
+
+    &:hover {
+      span {
+        transform: scale(1.2);
+      }
+    }
+  }
+
+  &__input {
+    position: absolute;
+    z-index: -1;
+    opacity: 0;
+
+    &:focus {
+      ~ span {
+        transform: scale(1.2);
+      }
+    }
+  }
+
+  // Modifications
+
+  &--color {
+    span {
+      width: 24px;
+      height: 24px;
+    }
+
+    .picker__item {
+      @each $name, $value in color.$color-list {
+        &--#{$name} {
+          span {
+            background-color: $value;
+          }
+        }
+      }
+    }
+
+    .picker__input {
+      &:checked ~ span {
+        outline-color: color.$white;
+      }
+    }
+  }
+
+  &--size {
+    .picker__label {
+      font-size: 1em;
+    }
+
+    span {
+      width: 24px;
+      height: 24px;
+      text-align: center;
+      background-color: #282828;
+    }
+
+    .picker__item {
+      &--default {
+        font-size: 0;
+      }
+
+      $size-list: (
+        'sm': 30px,
+        'lg': 30px,
+      );
+
+      // Operations with $size-list
+      @each $name, $value in $size-list {
+        &--#{$name} {
+          span {
+            width: $value;
+          }
+        }
+      }
+    }
+
+    .picker__input {
+      &:checked ~ span {
+        outline-color: color.$white;
+      }
+    }
+  }
+}

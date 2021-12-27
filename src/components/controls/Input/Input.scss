@@ -1,0 +1,53 @@
+@use '../../../style/_color.scss';
+
+.input {
+  width: 100%;
+  display: block;
+  font-size: 1em;
+  line-height: 1.25;
+  background: #fff !important;
+  box-shadow: inset 0 0 0 2px color.$silver;
+  border-radius: 3px;
+  border: none;
+  resize: none;
+  box-sizing: border-box;
+  padding: 0.25em 0.5em;
+  margin: 0;
+
+  $ph-color: color.$darkGray;
+
+  &::-webkit-input-placeholder {
+    color: $ph-color;
+  }
+
+  &:-moz-placeholder {
+    color: $ph-color;
+    opacity: 1;
+  }
+
+  &::-moz-placeholder {
+    color: $ph-color;
+    opacity: 1;
+  }
+
+  &:-ms-input-placeholder {
+    color: $ph-color;
+  }
+
+  &::-ms-input-placeholder {
+    color: $ph-color;
+  }
+
+  &::placeholder {
+    color: $ph-color;
+  }
+
+  &:focus-visible {
+    outline: color.$primary auto 1px;
+  }
+
+  &__label {
+    display: block;
+    margin-bottom: 0.5em;
+  }
+}

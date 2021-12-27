@@ -1,0 +1,53 @@
+@use '../../style/color';
+
+.modal {
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: fade-out(color.$dark, 0.2);
+  position: fixed;
+  z-index: 100;
+
+  &__container {
+    position: relative;
+  }
+
+  &__form {
+    background-color: color.$white;
+    display: block;
+    padding: 0.75em 0.6em;
+    border-radius: 0.2em;
+  }
+
+  &__color-picker {
+    bottom: 100%;
+    position: absolute;
+    margin-bottom: 0.35em;
+  }
+
+  &__size-picker {
+    top: 100%;
+    position: absolute;
+    margin-top: 0.35em;
+  }
+
+  &__save-button {
+    top: 100%;
+    right: 1em;
+    position: absolute;
+    margin-top: 0.75em;
+  }
+
+  &__close-button {
+    bottom: 100%;
+    right: 1em;
+    position: absolute;
+    margin-bottom: 0.7em;
+
+    .icon {
+      fill: color.$white;
+      opacity: 0.45;
+    }
+  }
+}

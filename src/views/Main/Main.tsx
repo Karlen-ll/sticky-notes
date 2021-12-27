@@ -121,6 +121,13 @@ function Main({
 
   const handleModalClose = useCallback(() => modalDataSet(null), []);
 
+  const handleKeyUp = (event: KeyboardEvent) => {
+    if (event.key === 'Escape') {
+      if (modalData) modalDataSet(null);
+      if (draggable) draggableSet(null);
+    }
+  };
+
   /** useEffects */
 
   useEffect(() => {
@@ -141,6 +148,7 @@ function Main({
     document.addEventListener('startDragElement', handleStartDrag as EventListener);
     document.addEventListener('endDragElement', handleEndDrag as EventListener);
     document.addEventListener('startEditElement', handleEdit as EventListener);
+    document.addEventListener('keyup', handleKeyUp);
     document.addEventListener('mouseleave', handleMouseLeave);
     document.addEventListener('mousemove', handleMouseMove);
     document.addEventListener('mouseup', handleMouseUp);
@@ -148,6 +156,7 @@ function Main({
       document.removeEventListener('startDragElement', handleStartDrag as EventListener);
       document.removeEventListener('endDragElement', handleEndDrag as EventListener);
       document.removeEventListener('startEditElement', handleEdit as EventListener);
+      document.removeEventListener('keyup', handleKeyUp);
       document.removeEventListener('mouseleave', handleMouseLeave);
       document.removeEventListener('mousemove', handleMouseMove);
       document.removeEventListener('mouseup', handleMouseUp);

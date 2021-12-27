@@ -63,7 +63,7 @@ const Modal = ({data: {data: note, left: x, top: y, width}, onSave, onClose}: Mo
   };
 
   return (
-    <div className="modal" onClick={handleOverlayClick}>
+    <div className="modal" onMouseDown={handleOverlayClick}>
       <div
         className="modal__container"
         style={{
@@ -80,6 +80,7 @@ const Modal = ({data: {data: note, left: x, top: y, width}, onSave, onClose}: Mo
             onChange={handleInputChange}
             value={note.title}
           />
+
           <Textarea
             className="modal__textarea"
             label="description"
@@ -97,6 +98,7 @@ const Modal = ({data: {data: note, left: x, top: y, width}, onSave, onClose}: Mo
             checkedItem={note.color}
             onChange={handleColorPickerChange}
           />
+
           <Picker
             className="modal__size-picker"
             title="Choose size"
@@ -108,9 +110,9 @@ const Modal = ({data: {data: note, left: x, top: y, width}, onSave, onClose}: Mo
 
           <Button
             className="modal__save-button"
+            tagName="button"
             onClick={() => (data ? onSave(data) : undefined)}
             disabled={!data?.title}
-            type="submit"
             tabIndex={0}
           >
             Save

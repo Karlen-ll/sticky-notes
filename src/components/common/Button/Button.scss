@@ -1,10 +1,13 @@
 @use '../../../style/_color.scss';
 
 .btn {
+  display: block;
+  font-size: 1rem;
+  border: none;
   cursor: pointer;
 
   &--primary {
-    min-width: 100px;
+    min-width: 120px;
     color: color.$white;
     background-color: color.$primary;
     padding: 0.5em 1em;

@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {throttle} from 'lodash';
 import cx from 'classnames';
 
@@ -6,18 +6,21 @@ import cx from 'classnames';
 import './CardList.scss';
 
 // Constants, Types & interfaces
-import {NOTES, SECTION_ARCHIVE, SM_THROTTLE_TIME, THROTTLE_TIME} from '@global/constants';
+import {NOTES, SECTION_ARCHIVE, SM_THROTTLE_TIME} from '@global/constants';
 import {Note, Notes} from '@global/notes';
 
 // Utils
 import {dispatchEvent} from '@utils/index';
+
+// HOC
+import withIsHover, {WithIsHoverProps} from '@components/hocs/withIsHover';
 
 // Components
 import Card from '@components/Card';
 import Icon from '@components/common/Icon';
 
 // Types & Interfaces
-export interface CardListProps {
+export interface CardListProps extends WithIsHoverProps {
   items: Notes;
   title: string;
   className?: string;
@@ -34,17 +37,15 @@ function CardList({
   isActiveDragMode,
   isLoading,
   title,
+  isHover,
+  onMouseEnter,
+  onMouseLeave,
   className,
 }: CardListProps) {
-  const [isActive, isActiveSet] = useState<boolean>(false);
-
-  const handleMouseEnter = throttle(() => isActiveSet(true), THROTTLE_TIME);
-  const handleMouseLeave = throttle(() => isActiveSet(false), THROTTLE_TIME);
-
   const isItemOfThisSection = draggableItem ? (draggableItem.section || SECTION_ARCHIVE) === title : false;
 
   const handleMouseUp = throttle(() => {
-    if (isActiveDragMode && isActive && !isItemOfThisSection) {
+    if (isActiveDragMode && isHover && !isItemOfThisSection) {
       dispatchEvent('endDragElement', {isContainer: true, section: title});
     }
   }, SM_THROTTLE_TIME);
@@ -58,7 +59,7 @@ function CardList({
   const hasHandlers = isDropContainer || hasNotNotes;
 
   const isActiveDropMode = isDropContainer || hasNotNotes;
-  const hasDragMode = isActive && isActiveDragMode && isActiveDropMode && !isItemOfThisSection;
+  const hasDragMode = isHover && isActiveDragMode && isActiveDropMode && !isItemOfThisSection;
 
   return (
     <section className={cx('card-list', `card-list--${title}`, className)}>
@@ -73,8 +74,8 @@ function CardList({
         {!isLoading && (
           <div
             className={cx('card-list__wrapper', {'card-list__wrapper--drop': hasDragMode})}
-            onMouseEnter={hasHandlers ? handleMouseEnter : undefined}
-            onMouseLeave={hasHandlers ? handleMouseLeave : undefined}
+            onMouseEnter={hasHandlers ? onMouseEnter : undefined}
+            onMouseLeave={hasHandlers ? onMouseLeave : undefined}
             onMouseUp={hasHandlers ? handleMouseUp : undefined}
           >
             {items.map(
@@ -98,4 +99,4 @@ function CardList({
   );
 }
 
-export default CardList;
+export default withIsHover(CardList);

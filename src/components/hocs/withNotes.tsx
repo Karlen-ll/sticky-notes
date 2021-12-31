@@ -39,11 +39,22 @@ export interface withNotesProps {
 }
 
 export function withNotes(WrappedComponent: ComponentType<withNotesProps>) {
+  const displayName = WrappedComponent.displayName || WrappedComponent.name || 'Component';
+
   const getIndexOfNote = (id: number, array: Notes): number => {
     return findIndex(array, item => item.id === id);
   };
 
-  return class extends Component<Props, withNotesState> {
+  class Notebook extends Component<Props, withNotesState> {
+    static displayName: string;
+
+    private static getNewIndex(index: number, toIndex: number, isToBehind: boolean, isOneArray: boolean = true) {
+      let newIndex = toIndex;
+      if (isOneArray && index < toIndex) newIndex--;
+      if (isToBehind) newIndex++;
+      return newIndex;
+    }
+
     constructor(props: Props) {
       super(props);
 
@@ -53,13 +64,6 @@ export function withNotes(WrappedComponent: ComponentType<withNotesProps>) {
         isLoadingNotes: false,
         isLoadingArchive: false,
       };
-    }
-
-    private getNewIndex(index: number, toIndex: number, isToBehind: boolean, isOneArray: boolean = true) {
-      let newIndex = toIndex;
-      if (isOneArray && index < toIndex) newIndex--;
-      if (isToBehind) newIndex++;
-      return newIndex;
     }
 
     private _getClonesArrays(): {notes: Notes; archive: Notes} {
@@ -91,7 +95,7 @@ export function withNotes(WrappedComponent: ComponentType<withNotesProps>) {
       promise
         .then(
           result => (result ? this.setState({archive: result}) : []),
-          error => this.setState({archive: []}),
+          () => this.setState({archive: []}),
         )
         .finally(() => this.setState({isLoadingArchive: false}));
     }
@@ -109,7 +113,7 @@ export function withNotes(WrappedComponent: ComponentType<withNotesProps>) {
       note.section = notes[toIndex].section;
 
       notes.splice(index, 1);
-      notes.splice(this.getNewIndex(index, toIndex, !!isToBehind), 0, note);
+      notes.splice(Notebook.getNewIndex(index, toIndex, !!isToBehind), 0, note);
 
       // Return result
       this.setState({notes}, () => saveNotes(notes));
@@ -141,7 +145,7 @@ export function withNotes(WrappedComponent: ComponentType<withNotesProps>) {
       note.section = section;
 
       archive.splice(index, 1);
-      notes.splice(this.getNewIndex(index, toIndex, !!isToBehind, false), 0, note);
+      notes.splice(Notebook.getNewIndex(index, toIndex, !!isToBehind, false), 0, note);
 
       // Return result
       this.setState({notes, archive}, () => saveNotes(notes));
@@ -158,7 +162,7 @@ export function withNotes(WrappedComponent: ComponentType<withNotesProps>) {
       // Fix data
       data.section = section;
 
-      notes.splice(this.getNewIndex(0, toIndex, !!isToBehind, false), 0, data);
+      notes.splice(Notebook.getNewIndex(0, toIndex, !!isToBehind, false), 0, data);
 
       this.setState({notes}, () => saveNotes(notes));
     }
@@ -203,5 +207,9 @@ export function withNotes(WrappedComponent: ComponentType<withNotesProps>) {
         />
       );
     }
-  };
+  }
+
+  Notebook.displayName = `withNotes(${displayName})`;
+
+  return Notebook;
 }

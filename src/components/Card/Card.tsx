@@ -7,10 +7,13 @@ import './Card.scss';
 
 // Constants, Types & interfaces
 import {Note} from '@global/notes';
-import {SM_THROTTLE_TIME, THROTTLE_TIME} from '@global/constants';
+import {SM_THROTTLE_TIME} from '@global/constants';
 
 // Utils
 import {dispatchEvent, getHTMLElementState} from '@utils/index';
+
+// HOC
+import withIsHover, {WithIsHoverProps} from '@components/hocs/withIsHover';
 
 // Components
 import CardInner from './CardInner';
@@ -18,7 +21,7 @@ import CardInner from './CardInner';
 // Helpers
 const BUTTON_CLASS = '.card__edit-button';
 
-interface NoteProps {
+interface CardProps extends WithIsHoverProps {
   data: Note;
   className?: string;
   isDraggable?: boolean;
@@ -26,10 +29,18 @@ interface NoteProps {
   isActiveDragMode?: boolean;
 }
 
-const Card = ({data, isArchived, isActiveDragMode, isDraggable, className}: NoteProps) => {
+const Card = ({
+  data,
+  isArchived,
+  isActiveDragMode,
+  isDraggable,
+  isHover,
+  onMouseEnter,
+  onMouseLeave,
+  className,
+}: CardProps) => {
   const refCard = useRef<HTMLDivElement>(null);
   const [isDragOver, isDragOverSet] = useState<boolean>(false);
-  const [isActive, isActiveSet] = useState<boolean>(false);
 
   /** Handlers */
 
@@ -60,11 +71,8 @@ const Card = ({data, isArchived, isActiveDragMode, isDraggable, className}: Note
     }
   }, SM_THROTTLE_TIME);
 
-  const handleMouseEnter = throttle(() => isActiveSet(true), THROTTLE_TIME);
-  const handleMouseLeave = throttle(() => isActiveSet(false), THROTTLE_TIME);
-
   const handleMouseUp = throttle(() => {
-    if (isActiveDragMode && isActive && !isDraggable) {
+    if (isActiveDragMode && isHover && !isDraggable) {
       dispatchEvent('endDragElement', {
         section: data.section,
         id: data.id,
@@ -80,7 +88,7 @@ const Card = ({data, isArchived, isActiveDragMode, isDraggable, className}: Note
     {'card--draggable': isDraggable},
     {[`card--${data.size}`]: data.size},
     {[`card--${data.color}`]: data.color},
-    {[`card--${isDragOver ? `over` : `under`}`]: isActiveDragMode && isActive},
+    {[`card--${isDragOver ? `over` : `under`}`]: isActiveDragMode && isHover},
     className,
   );
 
@@ -88,8 +96,8 @@ const Card = ({data, isArchived, isActiveDragMode, isDraggable, className}: Note
     <div
       ref={refCard}
       className={classNames}
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
       onMouseMove={handleMouseMove}
       onMouseDown={handleMouseDown}
       onMouseUp={handleMouseUp}
@@ -99,4 +107,4 @@ const Card = ({data, isArchived, isActiveDragMode, isDraggable, className}: Note
   );
 };
 
-export default Card;
+export default withIsHover(Card);

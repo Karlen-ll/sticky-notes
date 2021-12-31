@@ -5,7 +5,7 @@ import cx from 'classnames';
 import './Card.scss';
 
 // Utils
-import {dispatchEvent} from '@utils/index';
+import {dispatchEvent, getHTMLElementState} from '@utils/index';
 
 // Constants, Types & interfaces
 import {Note} from '@global/notes';
@@ -22,19 +22,14 @@ const CardInner = ({data, isArchived}: {data: Note; isArchived?: boolean}) => {
   /** Handlers */
 
   const handleClickEditButton = (event: MouseEvent) => {
-    const card: HTMLDivElement | null = (event.target as HTMLElement).closest('.card');
-    const rect = card
-      ? card.getBoundingClientRect()
-      : {
-          top: 0,
-          left: 0,
-        };
+    const target = event.target as HTMLElement;
+    const {top, left, offsetWidth: width} = getHTMLElementState(target.closest<HTMLElement>('.card'));
 
     dispatchEvent('startEditElement', {
       data,
-      top: rect.top,
-      left: rect.left,
-      width: card ? card.offsetWidth || 0 : 0,
+      top,
+      left,
+      width,
     });
   };
 

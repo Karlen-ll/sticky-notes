@@ -10,12 +10,14 @@ import {Note} from '@global/notes';
 import {SM_THROTTLE_TIME, THROTTLE_TIME} from '@global/constants';
 
 // Utils
-import {dispatchEvent} from '@utils/index';
+import {dispatchEvent, getHTMLElementState} from '@utils/index';
 
 // Components
 import CardInner from './CardInner';
 
 // Helpers
+const BUTTON_CLASS = '.card__edit-button';
+
 interface NoteProps {
   data: Note;
   className?: string;
@@ -29,41 +31,13 @@ const Card = ({data, isArchived, isActiveDragMode, isDraggable, className}: Note
   const [isDragOver, isDragOverSet] = useState<boolean>(false);
   const [isActive, isActiveSet] = useState<boolean>(false);
 
-  const getCardState = () => {
-    let rect = {} as DOMRect;
-    let [offsetWidth, offsetHeight] = [0, 0];
-
-    if (refCard && refCard.current) {
-      const ref = refCard.current as HTMLDivElement;
-
-      rect = ref.getBoundingClientRect() as DOMRect;
-      offsetWidth = ref.offsetWidth;
-      offsetHeight = ref.offsetHeight;
-    }
-
-    return {
-      x: rect.x || 0,
-      y: rect.y || 0,
-      top: rect.top || 0,
-      left: rect.left || 0,
-      right: rect.right || 0,
-      bottom: rect.bottom || 0,
-      width: rect.width || 0,
-      height: rect.height || 0,
-      offsetHeight,
-      offsetWidth,
-    };
-  };
-
   /** Handlers */
 
   const handleMouseDown = throttle((event: MouseEvent) => {
-    const {top, left, offsetHeight, offsetWidth} = getCardState();
-    const {pageX: x, pageY: y} = event;
+    const {top, left, offsetHeight, offsetWidth} = getHTMLElementState(refCard?.current);
+    const {pageX: x, pageY: y, target} = event;
 
-    if (event.target instanceof Element) {
-      if (event.target.closest('.card__edit-button')) return;
-    }
+    if (target instanceof Element && target.closest(BUTTON_CLASS)) return;
 
     dispatchEvent('startDragElement', {
       state: {
@@ -79,9 +53,11 @@ const Card = ({data, isArchived, isActiveDragMode, isDraggable, className}: Note
   }, SM_THROTTLE_TIME);
 
   const handleMouseMove = throttle((event: MouseEvent) => {
-    const {top, offsetHeight} = getCardState();
+    if (isActiveDragMode) {
+      const {top, offsetHeight} = getHTMLElementState(refCard?.current);
 
-    isDragOverSet(offsetHeight / 2 > event.pageY - top);
+      isDragOverSet(offsetHeight / 2 > event.pageY - top);
+    }
   }, SM_THROTTLE_TIME);
 
   const handleMouseEnter = throttle(() => isActiveSet(true), THROTTLE_TIME);

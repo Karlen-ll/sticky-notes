@@ -71,7 +71,7 @@ function CardList({
         </span>
       </header>
 
-      <ScrollBox className="card-list__scroll-box">
+      <ScrollBox className="card-list__scroll-box" isHorizontal={isArchiveContainer}>
         <div
           className={cx('card-list__wrapper', {'card-list__wrapper--drop': hasDragMode})}
           onMouseEnter={hasHandlers ? onMouseEnter : undefined}

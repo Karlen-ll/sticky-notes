@@ -7,11 +7,19 @@ import './ScrollBox.scss';
 // Types & interfaces
 export interface ScrollBoxProps {
   children?: JSX.Element | JSX.Element[];
+  isHorizontal?: boolean;
   className?: string;
 }
 
-function ScrollBox({children, className}: ScrollBoxProps) {
-  return <div className={cx('scroll-box', className)}>{Children.map(children, child => child)}</div>;
+/**
+ * @description Component provides scrolling using css
+ */
+function ScrollBox({children, isHorizontal, className}: ScrollBoxProps) {
+  return (
+    <div className={cx('scroll-box', {'scroll-box--horizontal': isHorizontal}, className)}>
+      {Children.map(children, child => child)}
+    </div>
+  );
 }
 
 export default ScrollBox;

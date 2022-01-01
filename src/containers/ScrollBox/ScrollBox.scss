@@ -10,14 +10,14 @@
   direction: ltr;
   overflow-y: auto;
 
-  $border-radius: math.div($scrollbar-width, 2);
+  $border-radius: math.div($scrollbar-size, 2);
 
   &:hover {
     scrollbar-color: lighten(color.$scrollbar_thumb, 10%);
   }
 
   &::-webkit-scrollbar {
-    width: $scrollbar-width;
+    width: $scrollbar-size;
   }
 
   &::-webkit-scrollbar-track {
@@ -30,5 +30,12 @@
     border: 1px solid transparent;
     background-clip: content-box;
     background-color: color.$scrollbar_thumb;
+  }
+
+  &--horizontal {
+    &::-webkit-scrollbar {
+      width: auto;
+      height: $scrollbar-size;
+    }
   }
 }

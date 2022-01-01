@@ -153,6 +153,7 @@ function Main({
     document.addEventListener('mouseleave', handleMouseLeave);
     document.addEventListener('mousemove', handleMouseMove);
     document.addEventListener('mouseup', handleMouseUp);
+
     return () => {
       document.removeEventListener(START_DRAG_EVENT, handleStartDrag as EventListener);
       document.removeEventListener(END_DRAG_EVENT, handleEndDrag as EventListener);

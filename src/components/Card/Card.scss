@@ -4,7 +4,7 @@
 @use '../../style/mixin';
 
 .card {
-  $black: color.$translucent;
+  $dark: color.$translucent;
 
   @include mixin.card-bg-style() {
     min-width: 0;
@@ -18,7 +18,7 @@
     height: $drop-line-size;
     width: calc(100% + #{$card-list-offset * 2});
     border-radius: math.div($drop-line-size, 2);
-    background-color: fade-out(color.$black, 0.5);
+    background-color: fade-out(color.$dark, 0.5);
     position: absolute;
   }
 
@@ -30,7 +30,7 @@
   }
 
   &--draggable {
-    background-color: $black;
+    background-color: $dark;
 
     .card {
       &__id,

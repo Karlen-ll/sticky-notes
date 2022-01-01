@@ -36,11 +36,8 @@
 
     &--default {
       span {
-        $color-bg: color.$white;
-        $color-line: color.$dark;
-
-        background: $color-bg;
-        background: linear-gradient(-45deg, $color-bg 47%, $color-line 47%, $color-line 52%, $color-bg 52%);
+        background: color.$white;
+        background: linear-gradient(-45deg, color.$white 47%, color.$darkness 47%, color.$darkness 52%, color.$white 52%);
       }
     }
   }
@@ -114,7 +111,7 @@
       width: 24px;
       height: 24px;
       text-align: center;
-      background-color: #282828;
+      background-color: color.$black;
     }
 
     .picker__item {

@@ -1,5 +1,6 @@
-$dark: #000;
-$black: #202020;
+$darkness: #000;
+$dark: #202020;
+$black: #282828;
 $darkGray: #4b4b4b;
 $dimGray: #808080;
 $gray: #879295;
@@ -7,7 +8,7 @@ $silver: #dbdbdb;
 $light: #ebedf3;
 $white: #fff;
 
-$translucent: fade-out($black, 0.9);
+$translucent: fade-out($dark, 0.9);
 
 // Colors for cards
 $green: #7bc86c;
@@ -36,20 +37,21 @@ $color-list: (
 );
 
 $color-list-for-text: (
-  'red': $dark,
-  'blue': $black,
-  'aqua': $black,
-  'lime': $black,
-  'pink': $black,
-  'green': $black,
+  'red': $darkness,
+  'blue': $dark,
+  'aqua': $dark,
+  'lime': $dark,
+  'pink': $dark,
+  'green': $dark,
   'night': $white,
-  'orange': $black,
-  'yellow': $black,
-  'purple': $black,
+  'orange': $dark,
+  'yellow': $dark,
+  'purple': $dark,
 );
 
 // Button, link & text
 $primary: #0079bf;
+$placeholder: $darkGray;
 
 // Font
 $font: #202020;
@@ -65,8 +67,8 @@ $scrollbar_thumb: fade-out($gray, 0.4);
 // Pattern
 $pattern: repeating-linear-gradient(
   45deg,
-  fade-out($black, 0.1),
-  fade-out($black, 0.1) 2px,
+  fade-out($dark, 0.1),
+  fade-out($dark, 0.1) 2px,
   $tertiary_bg 2px,
   $tertiary_bg 10px
 );

@@ -19,7 +19,7 @@ export interface NoteProps {
 const DemoCard = forwardRef<HTMLDivElement, NoteProps>(({data, isShow}, ref) => {
   return (
     <div ref={ref} className={cx('card card--demo', {'card--show': isShow, 'card--archived': !data?.section})}>
-      {data && <CardInner data={data} />}
+      {data && <CardInner data={data} isEditable={false} />}
     </div>
   );
 });

@@ -7,6 +7,8 @@ $silver: #dbdbdb;
 $light: #ebedf3;
 $white: #fff;
 
+$translucent: fade-out($black, 0.9);
+
 // Colors for cards
 $green: #7bc86c;
 $yellow: #f5dd29;
@@ -33,7 +35,7 @@ $color-list: (
   'purple': $purple,
 );
 
-$color-list-inverse: (
+$color-list-for-text: (
   'red': $dark,
   'blue': $black,
   'aqua': $black,
@@ -52,19 +54,19 @@ $primary: #0079bf;
 // Font
 $font: #202020;
 
-// Header
-$header: #fff;
-$workspace: #fff;
-
 // Background
-$background: #f8f8f8;
-$card-list-bg: transparent;
+$primary_bg: $white;
+$secondary_bg: transparent;
+$tertiary_bg: #f8f8f8;
+
+$scrollbar_bg: fade-out($silver, 0.4);
+$scrollbar_thumb: fade-out($gray, 0.4);
 
 // Pattern
 $pattern: repeating-linear-gradient(
   45deg,
   fade-out($black, 0.1),
   fade-out($black, 0.1) 2px,
-  $background 2px,
-  $background 10px
+  $tertiary_bg 2px,
+  $tertiary_bg 10px
 );

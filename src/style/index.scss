@@ -1,4 +1,4 @@
-@use '_color.scss';
+@use 'color';
 
 @import-normalize;
 
@@ -13,7 +13,7 @@ body {
     'Droid Sans', 'Helvetica Neue', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: color.$background;
+  background-color: color.$tertiary_bg;
   color: color.$font;
   line-height: 1.5;
   text-align: left;

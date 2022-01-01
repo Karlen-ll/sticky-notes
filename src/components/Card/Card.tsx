@@ -7,7 +7,7 @@ import './Card.scss';
 
 // Constants, Types & interfaces
 import {Note} from '@global/notes';
-import {SM_THROTTLE_TIME} from '@global/constants';
+import {END_DRAG_EVENT, SM_THROTTLE_TIME, START_DRAG_EVENT} from '@global/constants';
 
 // Utils
 import {dispatchEvent, getHTMLElementState} from '@utils/index';
@@ -25,13 +25,13 @@ interface CardProps extends WithIsHoverProps {
   data: Note;
   className?: string;
   isDraggable?: boolean;
-  isArchived?: boolean;
+  isEditable?: boolean;
   isActiveDragMode?: boolean;
 }
 
 const Card = ({
   data,
-  isArchived,
+  isEditable,
   isActiveDragMode,
   isDraggable,
   isHover,
@@ -39,18 +39,18 @@ const Card = ({
   onMouseLeave,
   className,
 }: CardProps) => {
-  const refCard = useRef<HTMLDivElement>(null);
+  const ref = useRef<HTMLDivElement>(null);
   const [isDragOver, isDragOverSet] = useState<boolean>(false);
 
   /** Handlers */
 
   const handleMouseDown = throttle((event: MouseEvent) => {
-    const {top, left, offsetHeight, offsetWidth} = getHTMLElementState(refCard?.current);
+    const {top, left, offsetHeight, offsetWidth} = getHTMLElementState(ref?.current);
     const {pageX: x, pageY: y, target} = event;
 
     if (target instanceof Element && target.closest(BUTTON_CLASS)) return;
 
-    dispatchEvent('startDragElement', {
+    dispatchEvent(START_DRAG_EVENT, {
       state: {
         x,
         y,
@@ -65,7 +65,7 @@ const Card = ({
 
   const handleMouseMove = throttle((event: MouseEvent) => {
     if (isActiveDragMode) {
-      const {top, offsetHeight} = getHTMLElementState(refCard?.current);
+      const {top, offsetHeight} = getHTMLElementState(ref?.current);
 
       isDragOverSet(offsetHeight / 2 > event.pageY - top);
     }
@@ -73,7 +73,7 @@ const Card = ({
 
   const handleMouseUp = throttle(() => {
     if (isActiveDragMode && isHover && !isDraggable) {
-      dispatchEvent('endDragElement', {
+      dispatchEvent(END_DRAG_EVENT, {
         section: data.section,
         id: data.id,
         isDragOver,
@@ -94,7 +94,7 @@ const Card = ({
 
   return (
     <div
-      ref={refCard}
+      ref={ref}
       className={classNames}
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
@@ -102,7 +102,7 @@ const Card = ({
       onMouseDown={handleMouseDown}
       onMouseUp={handleMouseUp}
     >
-      <CardInner data={data} isArchived={isArchived} />
+      <CardInner data={data} isEditable={isEditable} />
     </div>
   );
 };

@@ -4,7 +4,7 @@ import React, {useCallback, useEffect, useRef, useState} from 'react';
 import './Main.scss';
 
 // Constants, Types & interfaces
-import {MAIN_SECTIONS, SECTION_ARCHIVE} from '@global/constants';
+import {EDIT_CARD_EVENT, END_DRAG_EVENT, MAIN_SECTIONS, SECTION_ARCHIVE, START_DRAG_EVENT} from '@global/constants';
 import {dragEditEvent, dragEndEvent, dragStartEvent} from '@global/events';
 import {editableDataOfNote} from '@global/notes';
 
@@ -41,8 +41,9 @@ function Main({
   notes,
   archive,
 
-  isLoadingNotes,
-  isLoadingArchive,
+  isLoadingForNotes,
+  isLoadingForArchive,
+  loadingForSection,
 
   loadNotes,
   loadArchive,
@@ -65,9 +66,9 @@ function Main({
    * @description Set style for the dragged element
    */
   const setStyleForDraggableItem = (data: dragStartEvent, pageX?: number, pageY?: number) => {
-    if (refDraggableItem.current) {
-      refDraggableItem.current.setAttribute('style', getTransform(data, pageX, pageY));
-    }
+    if (!refDraggableItem?.current) return;
+
+    refDraggableItem.current.setAttribute('style', getTransform(data, pageX, pageY));
   };
 
   /** Handlers */
@@ -94,25 +95,25 @@ function Main({
   };
 
   const handleEndDrag = ({detail}: CustomEvent<dragEndEvent>): void => {
-    if (draggable) {
-      const id = draggable.note.id;
-      const isArchive = detail.section === SECTION_ARCHIVE;
-      const isArchiveNote = !draggable.note.section || draggable.note.section === SECTION_ARCHIVE;
+    if (!draggable) return;
 
-      if (draggable.isNewNote && !isArchive) {
-        createNotes().then(newNote => addNote(newNote, detail.section, detail.id, !detail.isDragOver));
-        return;
-      }
+    const id = draggable.note.id;
+    const isArchive = detail.section === SECTION_ARCHIVE;
+    const isArchiveNote = !draggable.note.section || draggable.note.section === SECTION_ARCHIVE;
 
-      if (detail.isContainer) {
-        if (isArchive) archiveNote(id);
-        else if (isArchiveNote) restoreNote(id, detail.section);
-        else editNote(id, {section: detail.section});
-      } else if (isArchiveNote && !isArchive) {
-        restoreNote(id, detail.section, detail.id, !detail.isDragOver);
-      } else {
-        moveNote(draggable.note.id, detail.id, !detail.isDragOver);
-      }
+    if (draggable.isNewNote && !isArchive) {
+      addNote(createNotes(), detail.section, detail.id, !detail.isDragOver);
+      return;
+    }
+
+    if (detail.isContainer) {
+      if (isArchive) archiveNote(id);
+      else if (isArchiveNote) restoreNote(id, detail.section);
+      else editNote(id, {section: detail.section});
+    } else if (isArchiveNote && !isArchive) {
+      restoreNote(id, detail.section, detail.id, !detail.isDragOver);
+    } else {
+      moveNote(draggable.note.id, detail.id, !detail.isDragOver);
     }
   };
 
@@ -145,17 +146,17 @@ function Main({
   }, [notes]);
 
   useEffect(() => {
-    document.addEventListener('startDragElement', handleStartDrag as EventListener);
-    document.addEventListener('endDragElement', handleEndDrag as EventListener);
-    document.addEventListener('startEditElement', handleEdit as EventListener);
+    document.addEventListener(START_DRAG_EVENT, handleStartDrag as EventListener);
+    document.addEventListener(END_DRAG_EVENT, handleEndDrag as EventListener);
+    document.addEventListener(EDIT_CARD_EVENT, handleEdit as EventListener);
     document.addEventListener('keyup', handleKeyUp);
     document.addEventListener('mouseleave', handleMouseLeave);
     document.addEventListener('mousemove', handleMouseMove);
     document.addEventListener('mouseup', handleMouseUp);
     return () => {
-      document.removeEventListener('startDragElement', handleStartDrag as EventListener);
-      document.removeEventListener('endDragElement', handleEndDrag as EventListener);
-      document.removeEventListener('startEditElement', handleEdit as EventListener);
+      document.removeEventListener(START_DRAG_EVENT, handleStartDrag as EventListener);
+      document.removeEventListener(END_DRAG_EVENT, handleEndDrag as EventListener);
+      document.removeEventListener(EDIT_CARD_EVENT, handleEdit as EventListener);
       document.removeEventListener('keyup', handleKeyUp);
       document.removeEventListener('mouseleave', handleMouseLeave);
       document.removeEventListener('mousemove', handleMouseMove);
@@ -177,7 +178,7 @@ function Main({
               items={notes.filter(item => item?.section === section)}
               draggableItem={draggableItem}
               isActiveDragMode={!!draggable}
-              isLoading={isLoadingNotes && !notes.length}
+              isLoading={isLoadingForNotes && (loadingForSection === section || loadingForSection === null)}
               key={section}
             />
           ))}
@@ -190,8 +191,8 @@ function Main({
               title={SECTION_ARCHIVE}
               draggableItem={draggableItem}
               isActiveDragMode={!!draggable}
-              isLoading={isLoadingArchive}
-              isDropContainer={true}
+              isLoading={isLoadingForArchive}
+              isDropContainer
             />
           </div>
         )}

@@ -1,5 +1,5 @@
-@use '../../style/_color.scss';
-@use '../../style/_variable.scss';
+@use '../../style/color';
+@use '../../style/variable' as *;
 
 .page {
   height: 100%;
@@ -44,12 +44,15 @@
         &__wrapper {
           display: flex;
         }
+
+        &__loader {
+          min-width: 256px;
+        }
       }
 
       .card {
         min-width: 256px;
         max-width: 300px;
-        margin: 0 $card-margin $card-margin 0;
         opacity: 0.75;
 
         &__title {
@@ -61,17 +64,21 @@
 
       $wrapper: card-list__wrapper;
 
+      .#{$wrapper} {
+        .card {
+          margin: 0 $card-margin 0 0;
+
+          &:last-child {
+            margin-right: 0;
+          }
+        }
+      }
+
       .#{$wrapper}:not(.#{$wrapper}--drop) {
         .card {
           &:hover {
             opacity: 1;
           }
-        }
-      }
-
-      .#{$wrapper} {
-        .card:last-child {
-          margin-bottom: $card-margin;
         }
       }
     }

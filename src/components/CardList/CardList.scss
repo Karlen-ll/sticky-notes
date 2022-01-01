@@ -1,56 +1,47 @@
-@use '../../style/_color.scss';
-@use '../../style/_variable.scss';
+@use 'sass:math';
+@use '../../style/color';
+@use '../../style/variable' as *;
+@use '../../style/mixin';
 
 .card-list {
-  $list-offset: 8px;
-  $scroll-offset: 10px;
-  $border-radius: variable.$card-border-radius;
-
-  width: 100%;
-  height: 100%;
-  max-width: 512px;
-  word-wrap: break-word;
-  display: flex;
-  flex-direction: column;
-  background-color: color.$card-list-bg;
-  background-clip: border-box;
-  border-radius: $border-radius;
-  box-sizing: border-box;
-  position: relative;
-  padding: 0.75em 1em;
-  overflow: hidden;
+  @include mixin.card-list-bg-style() {
+    width: 100%;
+    height: 100%;
+    max-width: 512px;
+    display: flex;
+    flex-direction: column;
+    word-wrap: break-word;
+  }
 
   &__title {
     display: block;
     font-size: 1.25em;
     line-height: 1.2;
     text-transform: uppercase;
-    user-select: none;
   }
 
   &__description {
     line-height: 1;
     color: color.$darkGray;
-    user-select: none;
   }
 
   &__header {
-    margin: 0 0 0.75em;
+    margin: 0 0 0.35em;
   }
 
   &__scroll-box {
     flex: 1 0;
-    position: relative;
-    padding: ($scroll-offset / 2) $scroll-offset $scroll-offset;
-    margin: 0 -$scroll-offset;
-    overflow-x: hidden;
+    padding: 0 $card-list-offset;
+    margin: 0 #{-$card-list-offset};
   }
 
   &__wrapper {
-    height: 100%;
+    min-height: calc(100% - #{$drop-line-size * 6});
+    margin: #{$drop-line-size * 3} 0;
+    box-sizing: border-box;
 
     .card {
-      margin-bottom: $list-offset;
+      margin-bottom: $card-list-offset;
 
       &:last-child {
         margin-bottom: 0;
@@ -60,16 +51,24 @@
     &--drop {
       &:after {
         content: '';
-        top: -$list-offset;
-        left: -$list-offset;
+        top: -$card-list-offset;
+        left: -$card-list-offset;
         right: 0;
         bottom: 0;
         position: absolute;
-        border-radius: $border-radius;
-        background-color: fade-out(color.$black, 0.9);
+        border-radius: $card-border-radius;
+        background-color: color.$translucent;
         background: color.$pattern;
         opacity: 0.6;
       }
+    }
+  }
+
+  &__loader {
+    @include mixin.card-bg-style() {
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
   }
 }

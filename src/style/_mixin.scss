@@ -1,0 +1,51 @@
+@import './color';
+@import './variable';
+
+@mixin section-bg-style() {
+  background-color: $primary_bg;
+  border-color: $light;
+  border-style: solid;
+  box-sizing: border-box;
+  user-select: none;
+  padding: 0.75em 2em 1em;
+  margin: 0;
+  @content;
+}
+
+@mixin header-bg-style() {
+  @include section-bg-style() {
+    box-shadow: 0 10px 30px 0 $translucent;
+    border-bottom-width: 1px;
+    @content;
+  }
+}
+
+@mixin footer-bg-style() {
+  @include section-bg-style() {
+    box-shadow: 0 -10px 30px 0 $translucent;
+    border-top-width: 1px;
+    @content;
+  }
+}
+
+@mixin card-list-bg-style() {
+  background-color: $secondary_bg;
+  background-clip: border-box;
+  border-radius: $card-border-radius;
+  box-sizing: border-box;
+  position: relative;
+  padding: 0.75em 1em 0;
+  overflow: hidden;
+  @content;
+}
+
+@mixin card-bg-style() {
+  background-color: $primary_bg;
+  background-clip: border-box;
+  border-radius: $card-border-radius;
+  box-shadow: 0 0 0.5em 0 $translucent;
+  box-sizing: border-box;
+  position: relative;
+  padding: 1em 1.25em;
+  @content;
+}

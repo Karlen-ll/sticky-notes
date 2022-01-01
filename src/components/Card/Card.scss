@@ -1,31 +1,25 @@
-@use '../../style/_color.scss';
-@use '../../style/_variable.scss';
+@use 'sass:math';
+@use '../../style/color';
+@use '../../style/variable' as *;
+@use '../../style/mixin';
 
 .card {
-  $black: fade-out(color.$black, 0.9);
-  $border-radius: variable.$card-border-radius;
+  $black: color.$translucent;
 
-  min-width: 0;
-  word-wrap: break-word;
-  background-color: #fff;
-  background-clip: border-box;
-  box-shadow: 0 0 0.5em 0 $black;
-  transition: background-color 0.2s;
-  border-radius: $border-radius;
-  box-sizing: border-box;
-  position: relative;
-  user-select: none;
-  padding: 1em 1.25em;
+  @include mixin.card-bg-style() {
+    min-width: 0;
+    word-wrap: break-word;
+    transition: background-color 0.2s;
+  }
 
   &::after,
   &::before {
-    $offset: 10px;
-
-    left: -$offset;
-    height: 2px;
-    width: calc(100% + #{$offset * 2});
-    position: absolute;
+    left: -$card-list-offset;
+    height: $drop-line-size;
+    width: calc(100% + #{$card-list-offset * 2});
+    border-radius: math.div($drop-line-size, 2);
     background-color: fade-out(color.$black, 0.5);
+    position: absolute;
   }
 
   &__id,
@@ -44,7 +38,6 @@
       &__label,
       &__description {
         opacity: 0;
-        user-select: none;
         pointer-events: none;
       }
     }
@@ -85,9 +78,9 @@
     left: 0;
     right: 0;
     width: 100%;
-    height: variable.$card-label-height;
+    height: $card-label-height;
+    border-radius: $card-border-radius $card-border-radius 0 0;
     position: absolute;
-    border-radius: $border-radius $border-radius 0 0;
     z-index: 5;
   }
 
@@ -114,11 +107,11 @@
   &--lg {
     .card__label {
       height: 100%;
-      border-radius: $border-radius;
+      border-radius: $card-border-radius;
     }
 
     // Operations with $color-list
-    @each $name, $value in color.$color-list-inverse {
+    @each $name, $value in color.$color-list-for-text {
       &.card--#{$name} {
         color: $value;
 
@@ -156,7 +149,6 @@
     left: 0;
     position: fixed;
     pointer-events: none;
-    user-select: none;
     box-sizing: border-box;
     padding: 1em 1.15em;
     z-index: 50;

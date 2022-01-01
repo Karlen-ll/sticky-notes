@@ -6,7 +6,7 @@ import cx from 'classnames';
 import './CardList.scss';
 
 // Constants, Types & interfaces
-import {NOTES, SECTION_ARCHIVE, SM_THROTTLE_TIME} from '@global/constants';
+import {END_DRAG_EVENT, NOTES, SECTION_ARCHIVE, SM_THROTTLE_TIME} from '@global/constants';
 import {Note, Notes} from '@global/notes';
 
 // Utils
@@ -16,8 +16,9 @@ import {dispatchEvent} from '@utils/index';
 import withIsHover, {WithIsHoverProps} from '@components/hocs/withIsHover';
 
 // Components
-import Card from '@components/Card';
+import ScrollBox from '@containers/ScrollBox';
 import Icon from '@components/common/Icon';
+import Card from '@components/Card';
 
 // Types & Interfaces
 export interface CardListProps extends WithIsHoverProps {
@@ -25,28 +26,28 @@ export interface CardListProps extends WithIsHoverProps {
   title: string;
   className?: string;
   draggableItem?: Note;
-  isLoading?: boolean;
   isDropContainer?: boolean;
   isActiveDragMode?: boolean;
+  isLoading?: boolean;
 }
 
 function CardList({
   items,
+  title,
+  className,
   draggableItem,
   isDropContainer,
   isActiveDragMode,
   isLoading,
-  title,
   isHover,
   onMouseEnter,
   onMouseLeave,
-  className,
 }: CardListProps) {
   const isItemOfThisSection = draggableItem ? (draggableItem.section || SECTION_ARCHIVE) === title : false;
 
   const handleMouseUp = throttle(() => {
     if (isActiveDragMode && isHover && !isItemOfThisSection) {
-      dispatchEvent('endDragElement', {isContainer: true, section: title});
+      dispatchEvent(END_DRAG_EVENT, {isContainer: true, section: title});
     }
   }, SM_THROTTLE_TIME);
 
@@ -70,31 +71,33 @@ function CardList({
         </span>
       </header>
 
-      <div className="card-list__scroll-box">
-        {!isLoading && (
-          <div
-            className={cx('card-list__wrapper', {'card-list__wrapper--drop': hasDragMode})}
-            onMouseEnter={hasHandlers ? onMouseEnter : undefined}
-            onMouseLeave={hasHandlers ? onMouseLeave : undefined}
-            onMouseUp={hasHandlers ? handleMouseUp : undefined}
-          >
-            {items.map(
-              item =>
-                item && (
-                  <Card
-                    data={item}
-                    isDraggable={item.id === draggableItem?.id}
-                    isActiveDragMode={isActiveDragMode && !isDropContainer}
-                    isArchived={isArchiveContainer}
-                    key={item.id}
-                  />
-                ),
-            )}
-          </div>
-        )}
-      </div>
+      <ScrollBox className="card-list__scroll-box">
+        <div
+          className={cx('card-list__wrapper', {'card-list__wrapper--drop': hasDragMode})}
+          onMouseEnter={hasHandlers ? onMouseEnter : undefined}
+          onMouseLeave={hasHandlers ? onMouseLeave : undefined}
+          onMouseUp={hasHandlers ? handleMouseUp : undefined}
+        >
+          {items.map(
+            item =>
+              item && (
+                <Card
+                  data={item}
+                  isDraggable={item.id === draggableItem?.id}
+                  isActiveDragMode={isActiveDragMode && !isDropContainer}
+                  isEditable={!isArchiveContainer}
+                  key={item.id}
+                />
+              ),
+          )}
 
-      {isLoading && <Icon name="loader" />}
+          {isLoading && (
+            <div className="card-list__loader">
+              <Icon name="loader" />
+            </div>
+          )}
+        </div>
+      </ScrollBox>
     </section>
   );
 }

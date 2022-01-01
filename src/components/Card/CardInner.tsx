@@ -9,12 +9,19 @@ import {dispatchEvent, getHTMLElementState} from '@utils/index';
 
 // Constants, Types & interfaces
 import {Note} from '@global/notes';
+import {EDIT_CARD_EVENT} from '@global/constants';
 
 // Components
 import Button from '@components/common/Button';
 import Icon from '@components/common/Icon';
 
-const CardInner = ({data, isArchived}: {data: Note; isArchived?: boolean}) => {
+// Helpers
+interface CardInnerProps {
+  data: Note;
+  isEditable?: boolean;
+}
+
+const CardInner = ({data, isEditable}: CardInnerProps) => {
   const {id, title, section, description, color, size} = data;
   const isShowedDesc = section && size !== 'sm';
   const hasId = id >= 0;
@@ -25,7 +32,7 @@ const CardInner = ({data, isArchived}: {data: Note; isArchived?: boolean}) => {
     const target = event.target as HTMLElement;
     const {top, left, offsetWidth: width} = getHTMLElementState(target.closest<HTMLElement>('.card'));
 
-    dispatchEvent('startEditElement', {
+    dispatchEvent(EDIT_CARD_EVENT, {
       data,
       top,
       left,
@@ -37,7 +44,7 @@ const CardInner = ({data, isArchived}: {data: Note; isArchived?: boolean}) => {
     <>
       {color && <div className={cx('card__label', {[`card__label--${color}`]: color})} />}
 
-      {!isArchived && (
+      {isEditable && (
         <div className="card__menu">
           <Button className="card__edit-button" variant="icon" onClick={handleClickEditButton}>
             <Icon className="card__icon" name="pen" size={16} />
@@ -50,7 +57,7 @@ const CardInner = ({data, isArchived}: {data: Note; isArchived?: boolean}) => {
         {title}
       </span>
 
-      {isShowedDesc && !isArchived && <span className="card__description">{description}</span>}
+      {isShowedDesc && <span className="card__description">{description}</span>}
     </>
   );
 };

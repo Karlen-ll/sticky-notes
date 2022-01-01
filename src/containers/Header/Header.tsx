@@ -5,7 +5,14 @@ import {throttle} from 'lodash';
 import './Header.scss';
 
 // Constants, Types & interfaces
-import {CREATE_NOTE_CAPTION, NEW_NOTE_DATA, NEW_NOTE_HEIGHT, NEW_NOTE_WIDTH, SM_THROTTLE_TIME} from '@global/constants';
+import {
+  CREATE_NOTE_CAPTION,
+  NEW_NOTE_DATA,
+  NEW_NOTE_HEIGHT,
+  NEW_NOTE_WIDTH,
+  SM_THROTTLE_TIME,
+  START_DRAG_EVENT,
+} from '@global/constants';
 
 // Utils
 import {dispatchEvent} from '@utils/index';
@@ -17,7 +24,7 @@ function Header() {
   const handleMouseDown = throttle((event: MouseEvent) => {
     const {pageX: x, pageY: y} = event;
 
-    dispatchEvent('startDragElement', {
+    dispatchEvent(START_DRAG_EVENT, {
       isNewNote: true,
       state: {
         x,

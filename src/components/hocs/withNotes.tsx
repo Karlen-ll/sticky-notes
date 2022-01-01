@@ -16,16 +16,19 @@ interface withNotesState {
   notes: Notes;
   archive: Notes;
 
-  isLoadingNotes: boolean;
-  isLoadingArchive: boolean;
+  isLoadingForNotes: boolean;
+  isLoadingForArchive: boolean;
+
+  loadingForSection: NoteSection | null;
 }
 
 export interface withNotesProps {
   notes: Notes;
   archive: Notes;
 
-  isLoadingNotes: boolean;
-  isLoadingArchive: boolean;
+  isLoadingForNotes: boolean;
+  isLoadingForArchive: boolean;
+  loadingForSection: NoteSection | null;
 
   loadNotes: Function;
   loadArchive: Function;
@@ -61,8 +64,9 @@ export function withNotes(WrappedComponent: ComponentType<withNotesProps>) {
       this.state = {
         notes: getNotes(),
         archive: [],
-        isLoadingNotes: false,
-        isLoadingArchive: false,
+        loadingForSection: null,
+        isLoadingForNotes: false,
+        isLoadingForArchive: false,
       };
     }
 
@@ -82,22 +86,30 @@ export function withNotes(WrappedComponent: ComponentType<withNotesProps>) {
      */
 
     loadNotes(promise: Promise<Notes>) {
-      this.setState({isLoadingNotes: true});
+      this.setState({isLoadingForNotes: true});
 
       promise
         .then(result => (result ? this.setState({notes: result.reverse()}) : []))
-        .finally(() => this.setState({isLoadingNotes: false}));
+        .finally(() => this.setState({isLoadingForNotes: false}));
     }
 
     loadArchive(promise: Promise<Notes>) {
-      this.setState({isLoadingArchive: true});
+      this.setState({isLoadingForArchive: true});
 
       promise
         .then(
           result => (result ? this.setState({archive: result}) : []),
           () => this.setState({archive: []}),
         )
-        .finally(() => this.setState({isLoadingArchive: false}));
+        .finally(() => this.setState({isLoadingForArchive: false}));
+    }
+
+    addNote(promise: Promise<Note>, section: NoteSection, toId?: number, isToBehind?: boolean) {
+      this.setState({isLoadingForNotes: true, loadingForSection: section});
+
+      promise
+        .then(newNote => this._addNote(newNote, section, toId, isToBehind))
+        .finally(() => this.setState({isLoadingForNotes: false, loadingForSection: null}));
     }
 
     /**
@@ -155,14 +167,14 @@ export function withNotes(WrappedComponent: ComponentType<withNotesProps>) {
      * Add methods
      */
 
-    addNote(data: Note, section: NoteSection, toId?: number, isToBehind?: boolean) {
+    private _addNote(newNote: Note, section: NoteSection, toId?: number, isToBehind?: boolean) {
       const notes = this._getCloneNotes();
       const toIndex = toId ? getIndexOfNote(toId, notes) : notes.length;
 
       // Fix data
-      data.section = section;
+      newNote.section = section;
 
-      notes.splice(Notebook.getNewIndex(0, toIndex, !!isToBehind, false), 0, data);
+      notes.splice(Notebook.getNewIndex(0, toIndex, !!isToBehind, false), 0, newNote);
 
       this.setState({notes}, () => saveNotes(notes));
     }

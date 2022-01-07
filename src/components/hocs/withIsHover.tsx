@@ -1,7 +1,7 @@
 import React, {MouseEventHandler, useCallback, useState} from 'react';
 import {throttle} from 'lodash';
 
-// Constants, Types & interfaces
+// Constants, Types & Interfaces
 import {THROTTLE_TIME} from '@global/constants';
 
 export interface WithIsHoverProps {

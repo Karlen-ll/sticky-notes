@@ -3,11 +3,20 @@ import {Notes} from '@global/notes';
 // Helpers
 const STORAGE_NOTES_KEY = 'notes';
 
-export function getNotes(): Notes {
+/**
+ * @description Get notes from localStorage
+ */
+function getNotes(): Notes {
   const savedNotes: string | null = localStorage.getItem(STORAGE_NOTES_KEY);
+
   return savedNotes ? JSON.parse(savedNotes) : [];
 }
 
-export function saveNotes(notes: Notes): void {
+/**
+ * @description Save notes to localStorage
+ */
+function saveNotes(notes: Notes): void {
   localStorage.setItem(STORAGE_NOTES_KEY, JSON.stringify(notes));
 }
+
+export {getNotes, saveNotes};

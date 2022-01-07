@@ -1,16 +1,34 @@
-import {dragEvent} from '@global/events';
+import {EventDetails} from '@global/events';
+
+// Types & Interfaces
+type ElementState = {
+  x: number;
+  y: number;
+  top: number;
+  left: number;
+  right: number;
+  bottom: number;
+  width: number;
+  height: number;
+  offsetWidth: number;
+  offsetHeight: number;
+};
+
+// dispatchEvent Overloads
+function dispatchEvent(eventName: string): void;
+function dispatchEvent(eventName: string, detail: EventDetails): void;
 
 /**
  * @description Dispatch document event
  */
-export const dispatchEvent = (eventName: string, detail?: dragEvent) => {
-  document.dispatchEvent(new CustomEvent<dragEvent>(eventName, {detail}));
-};
+function dispatchEvent(eventName: string, detail?: EventDetails) {
+  document.dispatchEvent(new CustomEvent<EventDetails>(eventName, {detail}));
+}
 
 /**
  * @description Get HTML element position & size
  */
-export const getHTMLElementState = (object?: HTMLElement | null) => {
+function getHTMLElementState(object?: HTMLElement | null): ElementState {
   let rect = {} as DOMRect;
   let [offsetWidth, offsetHeight] = [0, 0];
 
@@ -32,4 +50,6 @@ export const getHTMLElementState = (object?: HTMLElement | null) => {
     offsetHeight,
     offsetWidth,
   };
-};
+}
+
+export {dispatchEvent, getHTMLElementState};

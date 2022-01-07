@@ -7,15 +7,15 @@ import './Card.scss';
 // Utils
 import {dispatchEvent, getHTMLElementState} from '@utils/index';
 
-// Constants, Types & interfaces
+// Constants, Types & Interfaces
 import {Note} from '@global/notes';
-import {EDIT_CARD_EVENT} from '@global/constants';
+import {DEFAULT_ICON_SIZE, EDIT_CARD_EVENT} from '@global/constants';
 
 // Components
 import Button from '@components/common/Button';
 import Icon from '@components/common/Icon';
 
-// Helpers
+// Types & Interfaces
 interface CardInnerProps {
   data: Note;
   isEditable?: boolean;
@@ -33,10 +33,12 @@ const CardInner = ({data, isEditable}: CardInnerProps) => {
     const {top, left, offsetWidth: width} = getHTMLElementState(target.closest<HTMLElement>('.card'));
 
     dispatchEvent(EDIT_CARD_EVENT, {
-      data,
-      top,
-      left,
-      width,
+      note: data,
+      state: {
+        top,
+        left,
+        width,
+      },
     });
   };
 
@@ -47,7 +49,7 @@ const CardInner = ({data, isEditable}: CardInnerProps) => {
       {isEditable && (
         <div className="card__menu">
           <Button className="card__edit-button" variant="icon" onClick={handleClickEditButton}>
-            <Icon className="card__icon" name="pen" size={16} />
+            <Icon className="card__icon" name="pen" size={DEFAULT_ICON_SIZE} />
           </Button>
         </div>
       )}

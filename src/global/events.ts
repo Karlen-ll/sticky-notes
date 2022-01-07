@@ -1,6 +1,6 @@
 import {Note} from './notes';
 
-export type dragState = {
+export type StateOfDragElement = {
   x: number;
   y: number;
   top: number;
@@ -9,24 +9,26 @@ export type dragState = {
   height: number;
 };
 
-export type dragStartEvent = {
+export type DragEvent<P extends object> = {
   note: Note;
-  state: dragState;
-  isNewNote?: boolean;
+  state: P;
 };
 
-export type dragEndEvent = {
-  isDragOver?: boolean; // Is drop over element?!
-  isContainer?: boolean; // Is drop into container?!
-  section?: string; // Section name
+export type DragStartDetail = DragEvent<StateOfDragElement> & {
+  isCreateNote?: boolean;
+};
+
+/**
+ * @param isDropOnTop Is drop in front of the element?!
+ * @param isContainer Is drop into container?!
+ */
+export type DragEndDetail = {
   id?: number;
+  section?: string;
+  isDropOnTop?: boolean;
+  isContainer?: boolean;
 };
 
-export type dragEditEvent = {
-  data: Note;
-  top?: number;
-  left?: number;
-  width?: number;
-};
+export type DetailOfEditNote = DragEvent<Partial<StateOfDragElement>>;
 
-export type dragEvent = dragStartEvent | dragEndEvent | dragEditEvent;
+export type EventDetails = DragStartDetail | DragEndDetail | DetailOfEditNote;

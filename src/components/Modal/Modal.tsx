@@ -3,29 +3,33 @@ import React, {ChangeEvent, MouseEvent, FormEvent, useState} from 'react';
 // Style
 import './Modal.scss';
 
-// Constants, types & interfaces
-import {COLORS, SIZES} from '@global/constants';
-import {editableDataOfNote, NotePicker} from '@global/notes';
-import {dragEditEvent} from '@global/events';
+// Constants, Types & Interfaces
+import {DetailOfEditNote} from '@global/events';
+import {EditableDataOfNote, CustomizableKeysOfNote, PickerType} from '@global/notes';
+import {COLORS, DEFAULT_ICON_SIZE, DEFAULT_PICKER_VALUE, DEFAULT_TEXTAREA_ROWS, SIZES} from '@global/constants';
 
 // Components
-import Input from '@components/controls/Input';
 import Textarea from '@components/controls/Textarea';
 import Picker from '@components/controls/Picker';
+import Input from '@components/controls/Input';
 import Button from '@components/common/Button';
 import Icon from '@components/common/Icon';
 
-// Helpers
-const DEFAULT_PICKER_VALUE = 'default';
-
 export interface ModalProps {
-  data: dragEditEvent;
-  onSave: (data: editableDataOfNote) => void;
+  data: DetailOfEditNote;
+  onSave: (data: EditableDataOfNote) => void;
   onClose: (event: MouseEvent) => void;
 }
 
-const Modal = ({data: {data: note, left: x, top: y, width}, onSave, onClose}: ModalProps) => {
-  const [data, dataSet] = useState<editableDataOfNote | null>({...note});
+const Modal = ({
+  data: {
+    note,
+    state: {left: x, top: y, width},
+  },
+  onSave,
+  onClose,
+}: ModalProps) => {
+  const [data, dataSet] = useState<EditableDataOfNote | null>({...note});
 
   const handleOverlayClick = (event: MouseEvent) => {
     if (event.target && (event.target as HTMLDivElement).classList.contains('modal')) {
@@ -47,7 +51,7 @@ const Modal = ({data: {data: note, left: x, top: y, width}, onSave, onClose}: Mo
     });
   };
 
-  const checkPickerValue = (value: string, key: NotePicker) => {
+  const checkPickerValue = (value: string, key: CustomizableKeysOfNote) => {
     return {
       ...data,
       [key]: value !== DEFAULT_PICKER_VALUE ? value : undefined,
@@ -55,11 +59,11 @@ const Modal = ({data: {data: note, left: x, top: y, width}, onSave, onClose}: Mo
   };
 
   const handleColorPickerChange = (event: FormEvent) => {
-    dataSet(checkPickerValue((event.target as HTMLInputElement).value, 'color'));
+    dataSet(checkPickerValue((event.target as HTMLInputElement).value, PickerType.color));
   };
 
   const handleSizePickerChange = (event: FormEvent) => {
-    dataSet(checkPickerValue((event.target as HTMLInputElement).value, 'size'));
+    dataSet(checkPickerValue((event.target as HTMLInputElement).value, PickerType.size));
   };
 
   return (
@@ -77,25 +81,25 @@ const Modal = ({data: {data: note, left: x, top: y, width}, onSave, onClose}: Mo
             label="title"
             name="title"
             type="text"
-            onChange={handleInputChange}
             value={note.title}
+            onChange={handleInputChange}
           />
 
           <Textarea
             className="modal__textarea"
             label="description"
             name="desc"
-            rows={5}
-            onChange={handleTextareaChange}
             value={note.description}
+            rows={DEFAULT_TEXTAREA_ROWS}
+            onChange={handleTextareaChange}
           />
 
           <Picker
             className="modal__color-picker"
             title="Choose color"
             type="color"
-            list={[DEFAULT_PICKER_VALUE, ...COLORS]}
             checkedItem={note.color}
+            list={[DEFAULT_PICKER_VALUE, ...COLORS]}
             onChange={handleColorPickerChange}
           />
 
@@ -103,8 +107,8 @@ const Modal = ({data: {data: note, left: x, top: y, width}, onSave, onClose}: Mo
             className="modal__size-picker"
             title="Choose size"
             type="size"
-            list={[DEFAULT_PICKER_VALUE, ...SIZES]}
             checkedItem={note.size}
+            list={[DEFAULT_PICKER_VALUE, ...SIZES]}
             onChange={handleSizePickerChange}
           />
 
@@ -119,7 +123,7 @@ const Modal = ({data: {data: note, left: x, top: y, width}, onSave, onClose}: Mo
           </Button>
 
           <Button className="modal__close-button" variant="icon" label="Close" type="submit" onClick={onClose}>
-            <Icon name="close" size={16} />
+            <Icon name="close" size={DEFAULT_ICON_SIZE} />
           </Button>
         </div>
       </div>

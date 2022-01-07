@@ -25,7 +25,7 @@ function Header() {
     const {pageX: x, pageY: y} = event;
 
     dispatchEvent(START_DRAG_EVENT, {
-      isNewNote: true,
+      isCreateNote: true,
       state: {
         x,
         y,

@@ -16,6 +16,10 @@ import {ReactComponent as IconPen} from '@assets/icons/pen.svg';
 // Types & Interfaces
 type Icons = 'loader' | 'close' | 'check' | 'heart' | 'copy' | 'plus' | 'pen';
 
+type OnlyObjectAndUndefined = {
+  [key: string]: object | undefined;
+};
+
 interface IconProps {
   name: Icons;
   size?: number;
@@ -25,19 +29,10 @@ interface IconProps {
 }
 
 // Helpers
-/** Set default icon props */
 const defaultIconProps = {aspectRatio: 1};
 
 /** Set icon props by iconName */
-const dataMap: {
-  loader?: object;
-  close?: object;
-  check?: object;
-  heart?: object;
-  copy?: object;
-  plus?: object;
-  pen?: object;
-} = {};
+const dataMap: OnlyObjectAndUndefined = {};
 
 const iconMap = {
   loader: IconLoader,

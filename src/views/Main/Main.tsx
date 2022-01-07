@@ -3,10 +3,10 @@ import React, {useCallback, useEffect, useRef, useState} from 'react';
 // Style
 import './Main.scss';
 
-// Constants, Types & interfaces
+// Constants, Types & Interfaces
 import {EDIT_CARD_EVENT, END_DRAG_EVENT, MAIN_SECTIONS, SECTION_ARCHIVE, START_DRAG_EVENT} from '@global/constants';
-import {dragEditEvent, dragEndEvent, dragStartEvent} from '@global/events';
-import {editableDataOfNote} from '@global/notes';
+import {DetailOfEditNote, DragEndDetail, DragStartDetail} from '@global/events';
+import {EditableDataOfNote} from '@global/notes';
 
 // Api
 import {createNotes, fetchArchiveNotes, fetchNotes} from '@api/notes';
@@ -15,26 +15,27 @@ import {createNotes, fetchArchiveNotes, fetchNotes} from '@api/notes';
 import {saveNotes} from '@utils/localStorage';
 
 // HOC
-import {withNotes, withNotesProps} from '@components/hocs/withNotes';
+import {withNotes, NotebookProps} from '@components/hocs/withNotes';
 
 // Components
-import Footer from '@containers/Footer';
-import Header from '@containers/Header/';
-import Workspace from '@containers/Workspace/';
-import CardList from '@components/CardList/';
+import Workspace from '@containers/Workspace';
+import CardList from '@components/CardList';
 import {DemoCard} from '@components/Card';
+import Footer from '@containers/Footer';
+import Header from '@containers/Header';
 import Modal from '@components/Modal';
 
 // Helpers
-const getTransform = ({state}: dragStartEvent, x?: number, y?: number): string => {
-  const {x: posX = 0, y: posY = 0, top = 0, left = 0, width = 0, height = 0} = state;
+const getTransform = (
+  {state: {x = 0, y = 0, top = 0, left = 0, width = 0, height = 0}}: DragStartDetail,
+  posX?: number,
+  posY?: number,
+): string => {
   const [ANGLE, SCALE] = ['1.5deg', 0.75];
-  const position = {
-    x: (x || posX) - left * SCALE - (width - width * SCALE) / 2,
-    y: (y || posY) - top * SCALE - (height - height * SCALE) / 2,
-  };
+  const _x = (posX || x) - left * SCALE - (width - width * SCALE) / 2;
+  const _y = (posY || y) - top * SCALE - (height - height * SCALE) / 2;
 
-  return `transform: translate(${position.x}px, ${position.y}px) scale(${SCALE}) rotate(${ANGLE}); width: ${width}px; height: ${height}px;`;
+  return `transform: translate(${_x}px, ${_y}px) scale(${SCALE}) rotate(${ANGLE}); width: ${width}px; height: ${height}px;`;
 };
 
 function Main({
@@ -54,9 +55,9 @@ function Main({
 
   restoreNote,
   archiveNote,
-}: withNotesProps) {
-  const [draggable, draggableSet] = useState<dragStartEvent | null>(null);
-  const [modalData, modalDataSet] = useState<dragEditEvent | null>(null);
+}: NotebookProps) {
+  const [draggable, draggableSet] = useState<DragStartDetail | null>(null);
+  const [modalData, modalDataSet] = useState<DetailOfEditNote | null>(null);
 
   const refDraggableItem = useRef<HTMLDivElement>(null);
 
@@ -65,10 +66,10 @@ function Main({
   /**
    * @description Set style for the dragged element
    */
-  const setStyleForDraggableItem = (data: dragStartEvent, pageX?: number, pageY?: number) => {
+  const setStyleForDraggableItem = (data: DragStartDetail, x?: number, y?: number) => {
     if (!refDraggableItem?.current) return;
 
-    refDraggableItem.current.setAttribute('style', getTransform(data, pageX, pageY));
+    refDraggableItem.current.setAttribute('style', getTransform(data, x, y));
   };
 
   /** Handlers */
@@ -77,32 +78,33 @@ function Main({
     if (draggable) setStyleForDraggableItem(draggable, event.pageX, event.pageY);
   };
 
-  const handleEdit = ({detail}: CustomEvent<dragEditEvent>) => {
+  const handleEdit = ({detail}: CustomEvent<DetailOfEditNote>) => {
     modalDataSet(detail);
   };
 
   const handleEditNote = useCallback(
-    (newData: editableDataOfNote) => {
-      if (newData && modalData) editNote(modalData.data.id, newData);
+    (newData: EditableDataOfNote) => {
+      if (newData && modalData) editNote(modalData.note.id, newData);
       modalDataSet(null);
     },
     [modalData, editNote],
   );
 
-  const handleStartDrag = ({detail}: CustomEvent<dragStartEvent>) => {
+  const handleStartDrag = ({detail}: CustomEvent<DragStartDetail>) => {
     draggableSet(detail);
     setStyleForDraggableItem(detail);
   };
 
-  const handleEndDrag = ({detail}: CustomEvent<dragEndEvent>): void => {
+  const handleEndDrag = ({detail}: CustomEvent<DragEndDetail>): void => {
     if (!draggable) return;
 
     const id = draggable.note.id;
     const isArchive = detail.section === SECTION_ARCHIVE;
     const isArchiveNote = !draggable.note.section || draggable.note.section === SECTION_ARCHIVE;
 
-    if (draggable.isNewNote && !isArchive) {
-      addNote(createNotes(), detail.section, detail.id, !detail.isDragOver);
+    // Drop new note
+    if (draggable.isCreateNote && !isArchive) {
+      addNote(createNotes(), detail.section, detail.id, !detail.isDropOnTop);
       return;
     }
 
@@ -111,9 +113,9 @@ function Main({
       else if (isArchiveNote) restoreNote(id, detail.section);
       else editNote(id, {section: detail.section});
     } else if (isArchiveNote && !isArchive) {
-      restoreNote(id, detail.section, detail.id, !detail.isDragOver);
+      restoreNote(id, detail.section, detail.id, !detail.isDropOnTop);
     } else {
-      moveNote(draggable.note.id, detail.id, !detail.isDragOver);
+      moveNote(draggable.note.id, detail.id, !detail.isDropOnTop);
     }
   };
 

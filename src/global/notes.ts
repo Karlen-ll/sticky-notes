@@ -1,26 +1,27 @@
-export type NoteSize = 'sm' | 'lg';
+import {COLORS, SECTIONS, SIZES} from '@global/constants';
 
-export type NoteColor = 'green' | 'yellow' | 'orange' | 'red' | 'purple' | 'blue' | 'aqua' | 'lime' | 'pink' | 'night';
+export type SizeOfNote = typeof SIZES[number];
 
-export type NoteSection = 'todo' | 'doing' | 'archive';
+export type ColorOfNote = typeof COLORS[number];
 
-export type NotePicker = 'color' | 'size';
+export type SectionOfNote = typeof SECTIONS[number];
 
 export type Note = {
   id: number;
   title: string;
   description?: string;
-  section?: NoteSection;
-  color?: NoteColor;
-  size?: NoteSize;
+  section?: SectionOfNote;
+  color?: ColorOfNote;
+  size?: SizeOfNote;
 };
 
-export interface editableDataOfNote {
-  title?: string;
-  description?: string;
-  section?: NoteSection;
-  color?: NoteColor;
-  size?: NoteSize;
-}
+export interface EditableDataOfNote extends Partial<Exclude<Note, 'id'>> {}
 
 export type Notes = Note[];
+
+export enum PickerType {
+  color = 'color',
+  size = 'size',
+}
+
+export type CustomizableKeysOfNote = PickerType.color | PickerType.size;

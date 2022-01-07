@@ -5,7 +5,7 @@ import cx from 'classnames';
 // Style
 import './Card.scss';
 
-// Constants, Types & interfaces
+// Constants, Types & Interfaces
 import {Note} from '@global/notes';
 import {END_DRAG_EVENT, SM_THROTTLE_TIME, START_DRAG_EVENT} from '@global/constants';
 
@@ -21,11 +21,12 @@ import CardInner from './CardInner';
 // Helpers
 const BUTTON_CLASS = '.card__edit-button';
 
+// Types & Interfaces
 interface CardProps extends WithIsHoverProps {
   data: Note;
   className?: string;
-  isDraggable?: boolean;
   isEditable?: boolean;
+  isDraggable?: boolean;
   isActiveDragMode?: boolean;
 }
 
@@ -40,7 +41,7 @@ const Card = ({
   className,
 }: CardProps) => {
   const ref = useRef<HTMLDivElement>(null);
-  const [isDragOver, isDragOverSet] = useState<boolean>(false);
+  const [isDropOnTop, isDropOnTopSet] = useState<boolean>(false);
 
   /** Handlers */
 
@@ -67,7 +68,7 @@ const Card = ({
     if (isActiveDragMode) {
       const {top, offsetHeight} = getHTMLElementState(ref?.current);
 
-      isDragOverSet(offsetHeight / 2 > event.pageY - top);
+      isDropOnTopSet(offsetHeight / 2 > event.pageY - top);
     }
   }, SM_THROTTLE_TIME);
 
@@ -76,7 +77,7 @@ const Card = ({
       dispatchEvent(END_DRAG_EVENT, {
         section: data.section,
         id: data.id,
-        isDragOver,
+        isDropOnTop,
       });
     }
   }, SM_THROTTLE_TIME);
@@ -88,7 +89,7 @@ const Card = ({
     {'card--draggable': isDraggable},
     {[`card--${data.size}`]: data.size},
     {[`card--${data.color}`]: data.color},
-    {[`card--${isDragOver ? `over` : `under`}`]: isActiveDragMode && isHover},
+    {[`card--${isDropOnTop ? `over` : `under`}`]: isActiveDragMode && isHover},
     className,
   );
 

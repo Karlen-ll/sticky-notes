@@ -1,7 +1,6 @@
 import React, {FormEvent} from 'react';
 import cx from 'classnames';
 
-// Style
 import './Picker.scss';
 
 function Picker({

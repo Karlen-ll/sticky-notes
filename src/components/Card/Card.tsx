@@ -1,27 +1,16 @@
-import React, {useRef, MouseEvent, useState} from 'react';
+import React, {useRef, MouseEvent, useState, useCallback} from 'react';
 import {throttle} from 'lodash';
 import cx from 'classnames';
 
-// Style
+import {Note} from '@global/notes';
+import {dispatchEvent, getHTMLElementState} from '@utils/index';
+import withIsHover, {WithIsHoverProps} from '@components/hocs/withIsHover';
+import {END_DRAG_EVENT, SM_THROTTLE_TIME, START_DRAG_EVENT} from '@global/constants';
+import CardInner from './CardInner';
 import './Card.scss';
 
-// Constants, Types & Interfaces
-import {Note} from '@global/notes';
-import {END_DRAG_EVENT, SM_THROTTLE_TIME, START_DRAG_EVENT} from '@global/constants';
-
-// Utils
-import {dispatchEvent, getHTMLElementState} from '@utils/index';
-
-// HOC
-import withIsHover, {WithIsHoverProps} from '@components/hocs/withIsHover';
-
-// Components
-import CardInner from './CardInner';
-
-// Helpers
 const BUTTON_CLASS = '.card__edit-button';
 
-// Types & Interfaces
 interface CardProps extends WithIsHoverProps {
   data: Note;
   className?: string;
@@ -43,9 +32,7 @@ const Card = ({
   const ref = useRef<HTMLDivElement>(null);
   const [isDropOnTop, isDropOnTopSet] = useState<boolean>(false);
 
-  /** Handlers */
-
-  const handleMouseDown = throttle((event: MouseEvent) => {
+  const dispatchStartDragEvent = throttle((event: MouseEvent) => {
     const {top, left, offsetHeight, offsetWidth} = getHTMLElementState(ref?.current);
     const {pageX: x, pageY: y, target} = event;
 
@@ -64,15 +51,7 @@ const Card = ({
     });
   }, SM_THROTTLE_TIME);
 
-  const handleMouseMove = throttle((event: MouseEvent) => {
-    if (isActiveDragMode) {
-      const {top, offsetHeight} = getHTMLElementState(ref?.current);
-
-      isDropOnTopSet(offsetHeight / 2 > event.pageY - top);
-    }
-  }, SM_THROTTLE_TIME);
-
-  const handleMouseUp = throttle(() => {
+  const dispatchEndDragEvent = throttle(() => {
     if (isActiveDragMode && isHover && !isDraggable) {
       dispatchEvent(END_DRAG_EVENT, {
         section: data.section,
@@ -82,7 +61,17 @@ const Card = ({
     }
   }, SM_THROTTLE_TIME);
 
-  /** Helpers */
+  const checkIsDropOnTopSet = throttle((event: MouseEvent) => {
+    if (isActiveDragMode) {
+      const {top, offsetHeight} = getHTMLElementState(ref?.current);
+
+      isDropOnTopSet(offsetHeight / 2 > event.pageY - top);
+    }
+  }, SM_THROTTLE_TIME);
+
+  const handleMouseDown = useCallback(dispatchStartDragEvent, [dispatchStartDragEvent]);
+  const handleMouseMove = useCallback(checkIsDropOnTopSet, [checkIsDropOnTopSet]);
+  const handleMouseUp = useCallback(dispatchEndDragEvent, [dispatchEndDragEvent]);
 
   const classNames = cx(
     'card',

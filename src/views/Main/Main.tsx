@@ -1,31 +1,19 @@
 import React, {useCallback, useEffect, useRef, useState} from 'react';
 
-// Style
-import './Main.scss';
-
-// Constants, Types & Interfaces
 import {EDIT_CARD_EVENT, END_DRAG_EVENT, MAIN_SECTIONS, SECTION_ARCHIVE, START_DRAG_EVENT} from '@global/constants';
 import {DetailOfEditNote, DragEndDetail, DragStartDetail} from '@global/events';
 import {EditableDataOfNote} from '@global/notes';
-
-// Api
 import {createNotes, fetchArchiveNotes, fetchNotes} from '@api/notes';
-
-// Utils
 import {saveNotes} from '@utils/localStorage';
-
-// HOC
 import {withNotes, NotebookProps} from '@components/hocs/withNotes';
-
-// Components
 import Workspace from '@containers/Workspace';
 import CardList from '@components/CardList';
 import {DemoCard} from '@components/Card';
 import Footer from '@containers/Footer';
 import Header from '@containers/Header';
 import Modal from '@components/Modal';
+import './Main.scss';
 
-// Helpers
 const getTransform = (
   {state: {x = 0, y = 0, top = 0, left = 0, width = 0, height = 0}}: DragStartDetail,
   posX?: number,
@@ -131,13 +119,11 @@ function Main({
     }
   };
 
-  /** useEffects */
-
   useEffect(() => {
     /**
      * Important!!! This method rewrite data from the localStorage...
-     * It is needed that you can play with the notes
-     */
+     * It is needed that you can play with the notes */
+
     loadNotes(fetchNotes());
 
     loadArchive(fetchArchiveNotes());

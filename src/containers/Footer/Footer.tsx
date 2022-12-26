@@ -1,12 +1,8 @@
 import React from 'react';
 
-// Style
+import {COPYRIGHT, NOTES} from '@global/constants';
 import './Footer.scss';
 
-// Constants, Types & interfaces
-import {COPYRIGHT, NOTES} from '@global/constants';
-
-// Types & interfaces
 export interface FooterProps {
   countOfNotes: number;
 }

@@ -1,10 +1,8 @@
 import {Children, MouseEvent} from 'react';
 import cx from 'classnames';
 
-// Style
 import './Button.scss';
 
-// Types & Interfaces
 type OnlyStringsAndUndefined = {
   [key: string]: string | undefined;
 };
@@ -24,7 +22,6 @@ interface ButtonProps {
   onClick?: (event: MouseEvent) => void;
 }
 
-// Helpers
 const variantMap: OnlyStringsAndUndefined = {
   primary: 'btn--primary',
   secondary: 'btn--secondary',

@@ -1,10 +1,7 @@
 import React, {Children} from 'react';
 import cx from 'classnames';
-
-// Style
 import './ScrollBox.scss';
 
-// Types & interfaces
 export interface ScrollBoxProps {
   children?: JSX.Element | JSX.Element[];
   isHorizontal?: boolean;

@@ -1,10 +1,6 @@
 import React, {MouseEvent} from 'react';
 import {throttle} from 'lodash';
 
-// Style
-import './Header.scss';
-
-// Constants, Types & interfaces
 import {
   CREATE_NOTE_CAPTION,
   NEW_NOTE_DATA,
@@ -13,12 +9,9 @@ import {
   SM_THROTTLE_TIME,
   START_DRAG_EVENT,
 } from '@global/constants';
-
-// Utils
 import {dispatchEvent} from '@utils/index';
-
-// Components
 import Logo from '@components/Logo';
+import './Header.scss';
 
 function Header() {
   const handleMouseDown = throttle((event: MouseEvent) => {

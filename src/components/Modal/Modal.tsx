@@ -1,19 +1,14 @@
-import React, {ChangeEvent, MouseEvent, FormEvent, useState} from 'react';
+import React, {ChangeEvent, FormEvent, MouseEvent, useCallback, useState} from 'react';
 
-// Style
-import './Modal.scss';
-
-// Constants, Types & Interfaces
 import {DetailOfEditNote} from '@global/events';
-import {EditableDataOfNote, CustomizableKeysOfNote, PickerType} from '@global/notes';
+import {CustomizableKeysOfNote, EditableDataOfNote, PickerType} from '@global/notes';
 import {COLORS, DEFAULT_ICON_SIZE, DEFAULT_PICKER_VALUE, DEFAULT_TEXTAREA_ROWS, SIZES} from '@global/constants';
-
-// Components
 import Textarea from '@components/controls/Textarea';
 import Picker from '@components/controls/Picker';
 import Input from '@components/controls/Input';
 import Button from '@components/common/Button';
 import Icon from '@components/common/Icon';
+import './Modal.scss';
 
 export interface ModalProps {
   data: DetailOfEditNote;
@@ -31,26 +26,6 @@ const Modal = ({
 }: ModalProps) => {
   const [data, dataSet] = useState<EditableDataOfNote | null>({...note});
 
-  const handleOverlayClick = (event: MouseEvent) => {
-    if (event.target && (event.target as HTMLDivElement).classList.contains('modal')) {
-      onClose(event);
-    }
-  };
-
-  const handleInputChange = (event: ChangeEvent) => {
-    dataSet({
-      ...data,
-      title: (event.target as HTMLInputElement).value,
-    });
-  };
-
-  const handleTextareaChange = (event: ChangeEvent) => {
-    dataSet({
-      ...data,
-      description: (event.target as HTMLInputElement).value,
-    });
-  };
-
   const checkPickerValue = (value: string, key: CustomizableKeysOfNote) => {
     return {
       ...data,
@@ -58,13 +33,45 @@ const Modal = ({
     };
   };
 
-  const handleColorPickerChange = (event: FormEvent) => {
-    dataSet(checkPickerValue((event.target as HTMLInputElement).value, PickerType.color));
+  const changeColor = (event: FormEvent) => {
+    dataSet(checkPickerValue((event.target as HTMLInputElement).value, PickerType.COLOR));
   };
 
-  const handleSizePickerChange = (event: FormEvent) => {
-    dataSet(checkPickerValue((event.target as HTMLInputElement).value, PickerType.size));
+  const changeSize = (event: FormEvent) => {
+    dataSet(checkPickerValue((event.target as HTMLInputElement).value, PickerType.SIZE));
   };
+
+  const handleColorPickerChange = useCallback(changeColor, [changeColor]);
+  const handleSizePickerChange = useCallback(changeSize, [changeSize]);
+
+  const handleOverlayClick = useCallback(
+    (event: MouseEvent) => {
+      if (event.target && (event.target as HTMLDivElement).classList.contains('modal')) {
+        onClose(event);
+      }
+    },
+    [onClose],
+  );
+
+  const handleInputChange = useCallback(
+    (event: ChangeEvent) => {
+      dataSet({
+        ...data,
+        title: (event.target as HTMLInputElement).value,
+      });
+    },
+    [data],
+  );
+
+  const handleTextareaChange = useCallback(
+    (event: ChangeEvent) => {
+      dataSet({
+        ...data,
+        description: (event.target as HTMLInputElement).value,
+      });
+    },
+    [data],
+  );
 
   return (
     <div className="modal" onMouseDown={handleOverlayClick}>

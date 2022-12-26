@@ -1,26 +1,16 @@
-import React from 'react';
+import React, {useCallback} from 'react';
 import {throttle} from 'lodash';
 import cx from 'classnames';
 
-// Style
-import './CardList.scss';
-
-// Constants, Types & interfaces
-import {END_DRAG_EVENT, NOTES, SECTION_ARCHIVE, SM_THROTTLE_TIME} from '@global/constants';
 import {Note, Notes} from '@global/notes';
-
-// Utils
 import {dispatchEvent} from '@utils/index';
-
-// HOC
+import {END_DRAG_EVENT, NOTES, SECTION_ARCHIVE, SM_THROTTLE_TIME} from '@global/constants';
 import withIsHover, {WithIsHoverProps} from '@components/hocs/withIsHover';
-
-// Components
 import ScrollBox from '@containers/ScrollBox';
 import Icon from '@components/common/Icon';
 import Card from '@components/Card';
+import './CardList.scss';
 
-// Types & Interfaces
 export interface CardListProps extends WithIsHoverProps {
   items: Notes;
   title: string;
@@ -45,15 +35,16 @@ function CardList({
 }: CardListProps) {
   const isItemOfThisSection = draggableItem ? (draggableItem.section || SECTION_ARCHIVE) === title : false;
 
-  const handleMouseUp = throttle(() => {
+  const dispatchMouseUpEvent = throttle(() => {
     if (isActiveDragMode && isHover && !isItemOfThisSection) {
       dispatchEvent(END_DRAG_EVENT, {isContainer: true, section: title});
     }
   }, SM_THROTTLE_TIME);
 
-  /**
-   * @description If this is an archive container - delete|hide notes properties
-   */
+  const handleMouseUp = useCallback(dispatchMouseUpEvent, [dispatchMouseUpEvent]);
+
+  /** @description If this is an archive container - delete|hide notes properties */
+
   const isArchiveContainer = title === SECTION_ARCHIVE;
 
   const hasNotNotes = !items.length;

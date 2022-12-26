@@ -1,5 +1,5 @@
-@import './color';
-@import './variable';
+@use './color' as *;
+@use './variable' as *;
 
 @mixin section-bg-style() {
   background-color: $primary_bg;

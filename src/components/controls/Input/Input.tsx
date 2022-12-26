@@ -1,7 +1,6 @@
 import React, {ChangeEvent, forwardRef} from 'react';
 import cx from 'classnames';
 
-// Style
 import './Input.scss';
 
 interface InputProps {

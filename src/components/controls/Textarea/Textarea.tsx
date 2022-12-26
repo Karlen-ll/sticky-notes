@@ -1,7 +1,6 @@
 import React, {ChangeEvent, forwardRef} from 'react';
 import cx from 'classnames';
 
-// Style
 import './Textarea.scss';
 
 interface InputProps {

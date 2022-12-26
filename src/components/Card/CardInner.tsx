@@ -1,21 +1,13 @@
-import React, {MouseEvent} from 'react';
+import React, {MouseEvent, useCallback} from 'react';
 import cx from 'classnames';
 
-// Style
-import './Card.scss';
-
-// Utils
-import {dispatchEvent, getHTMLElementState} from '@utils/index';
-
-// Constants, Types & Interfaces
 import {Note} from '@global/notes';
+import {dispatchEvent, getHTMLElementState} from '@utils/index';
 import {DEFAULT_ICON_SIZE, EDIT_CARD_EVENT} from '@global/constants';
-
-// Components
 import Button from '@components/common/Button';
 import Icon from '@components/common/Icon';
+import './Card.scss';
 
-// Types & Interfaces
 interface CardInnerProps {
   data: Note;
   isEditable?: boolean;
@@ -26,21 +18,22 @@ const CardInner = ({data, isEditable}: CardInnerProps) => {
   const isShowedDesc = section && size !== 'sm';
   const hasId = id >= 0;
 
-  /** Handlers */
+  const handleClickEditButton = useCallback(
+    (event: MouseEvent) => {
+      const target = event.target as HTMLElement;
+      const {top, left, offsetWidth: width} = getHTMLElementState(target.closest<HTMLElement>('.card'));
 
-  const handleClickEditButton = (event: MouseEvent) => {
-    const target = event.target as HTMLElement;
-    const {top, left, offsetWidth: width} = getHTMLElementState(target.closest<HTMLElement>('.card'));
-
-    dispatchEvent(EDIT_CARD_EVENT, {
-      note: data,
-      state: {
-        top,
-        left,
-        width,
-      },
-    });
-  };
+      dispatchEvent(EDIT_CARD_EVENT, {
+        note: data,
+        state: {
+          top,
+          left,
+          width,
+        },
+      });
+    },
+    [data],
+  );
 
   return (
     <>
@@ -49,7 +42,7 @@ const CardInner = ({data, isEditable}: CardInnerProps) => {
       {isEditable && (
         <div className="card__menu">
           <Button className="card__edit-button" variant="icon" onClick={handleClickEditButton}>
-            <Icon className="card__icon" name="pen" size={DEFAULT_ICON_SIZE} />
+            <Icon name="pen" className="card__icon" size={DEFAULT_ICON_SIZE} />
           </Button>
         </div>
       )}

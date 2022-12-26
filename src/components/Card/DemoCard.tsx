@@ -1,16 +1,10 @@
 import React, {forwardRef} from 'react';
 import cx from 'classnames';
 
-// Style
+import {Note} from '@global/notes';
+import CardInner from '@components/Card/CardInner';
 import './Card.scss';
 
-// Constants, Types & interfaces
-import {Note} from '@global/notes';
-
-// Components
-import CardInner from '@components/Card/CardInner';
-
-// Types & Interfaces
 export interface NoteProps {
   data?: Note;
   isShow?: boolean;

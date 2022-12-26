@@ -1,13 +1,9 @@
 import React, {Component, ComponentType} from 'react';
 import {findIndex} from 'lodash';
 
-// Constants, Types & Interfaces
 import {Note, Notes, SectionOfNote, EditableDataOfNote} from '@global/notes';
-
-// Utils
 import {getNotes, saveNotes} from '@utils/localStorage';
 
-// Types & Interfaces
 interface Props {
   children?: JSX.Element;
 }
@@ -15,21 +11,17 @@ interface Props {
 interface NotebookState {
   notes: Notes;
   archive: Notes;
-
   isLoadingForNotes: boolean;
   isLoadingForArchive: boolean;
-
   loadingForSection: SectionOfNote | null;
 }
 
 export interface NotebookProps extends NotebookState {
   loadNotes: Function;
   loadArchive: Function;
-
   addNote: Function;
   editNote: Function;
   moveNote: Function;
-
   restoreNote: Function;
   archiveNote: Function;
 }
@@ -74,10 +66,6 @@ export function withNotes(WrappedComponent: ComponentType<NotebookProps>) {
       return [...this.state.notes];
     }
 
-    /**
-     * Load methods
-     */
-
     loadNotes(promise: Promise<Notes>) {
       this.setState({isLoadingForNotes: true});
 
@@ -105,9 +93,6 @@ export function withNotes(WrappedComponent: ComponentType<NotebookProps>) {
         .finally(() => this.setState({isLoadingForNotes: false, loadingForSection: null}));
     }
 
-    /**
-     * Move methods
-     */
     moveNote(id: number, toId: number, isToBehind?: boolean): void {
       const notes = this._getCloneNotes();
       const [index, toIndex] = [getIndexOfNote(id, notes), getIndexOfNote(toId, notes)];
@@ -155,10 +140,6 @@ export function withNotes(WrappedComponent: ComponentType<NotebookProps>) {
       this.setState({notes, archive}, () => saveNotes(notes));
     }
 
-    /**
-     * Add methods
-     */
-
     private _addNote(newNote: Note, section: SectionOfNote, toId?: number, isToBehind?: boolean) {
       const notes = this._getCloneNotes();
       const toIndex = toId ? getIndexOfNote(toId, notes) : notes.length;
@@ -171,10 +152,6 @@ export function withNotes(WrappedComponent: ComponentType<NotebookProps>) {
       this.setState({notes}, () => saveNotes(notes));
     }
 
-    /**
-     * Edit methods
-     */
-
     editNote(id: number, data: EditableDataOfNote) {
       const notes = this._getCloneNotes();
       const index = getIndexOfNote(id, notes);
@@ -186,8 +163,6 @@ export function withNotes(WrappedComponent: ComponentType<NotebookProps>) {
 
       this.setState({notes}, () => saveNotes(notes));
     }
-
-    /** Prepare props */
 
     loadNotesProp = this.loadNotes.bind(this);
     loadArchiveProp = this.loadArchive.bind(this);

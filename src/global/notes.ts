@@ -1,9 +1,7 @@
 import {COLORS, SECTIONS, SIZES} from '@global/constants';
 
 export type SizeOfNote = typeof SIZES[number];
-
 export type ColorOfNote = typeof COLORS[number];
-
 export type SectionOfNote = typeof SECTIONS[number];
 
 export type Note = {
@@ -20,8 +18,8 @@ export interface EditableDataOfNote extends Partial<Exclude<Note, 'id'>> {}
 export type Notes = Note[];
 
 export enum PickerType {
-  color = 'color',
-  size = 'size',
+  COLOR = 'color',
+  SIZE = 'size',
 }
 
-export type CustomizableKeysOfNote = PickerType.color | PickerType.size;
+export type CustomizableKeysOfNote = PickerType.COLOR | PickerType.SIZE;

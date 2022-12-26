@@ -1,9 +1,7 @@
 import {Note, Notes} from '@global/notes';
 
-// Helpers
 const FETCH_TIME = 2000;
 
-// Emulate
 function emulateFetch<T>(data: T, wait: number = FETCH_TIME): Promise<T> {
   return new Promise<T>(resolve => setTimeout(() => resolve(data), wait));
 }

@@ -1,4 +1,4 @@
-const path = require('path');
+const path = require('path')
 
 module.exports = function override(config) {
   config.resolve.alias = {
@@ -11,7 +11,7 @@ module.exports = function override(config) {
     '@style': path.resolve(`./src/style`),
     '@views': path.resolve(`./src/views`),
     '@api': path.resolve(`./src/api`),
-  };
+  }
 
-  return config;
-};
+  return config
+}

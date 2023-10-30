@@ -1,41 +1,41 @@
-import {EventDetails} from '@global/events';
+import { EventDetails } from '@global/events'
 
 // Types & Interfaces
 type ElementState = {
-  x: number;
-  y: number;
-  top: number;
-  left: number;
-  right: number;
-  bottom: number;
-  width: number;
-  height: number;
-  offsetWidth: number;
-  offsetHeight: number;
-};
+  x: number
+  y: number
+  top: number
+  left: number
+  right: number
+  bottom: number
+  width: number
+  height: number
+  offsetWidth: number
+  offsetHeight: number
+}
 
 // dispatchEvent Overloads
-function dispatchEvent(eventName: string): void;
-function dispatchEvent(eventName: string, detail: EventDetails): void;
+function dispatchEvent(eventName: string): void
+function dispatchEvent(eventName: string, detail: EventDetails): void
 
 /**
  * @description Dispatch document event
  */
 function dispatchEvent(eventName: string, detail?: EventDetails) {
-  document.dispatchEvent(new CustomEvent<EventDetails>(eventName, {detail}));
+  document.dispatchEvent(new CustomEvent<EventDetails>(eventName, { detail }))
 }
 
 /**
  * @description Get HTML element position & size
  */
 function getHTMLElementState(object?: HTMLElement | null): ElementState {
-  let rect = {} as DOMRect;
-  let [offsetWidth, offsetHeight] = [0, 0];
+  let rect = {} as DOMRect
+  let [offsetWidth, offsetHeight] = [0, 0]
 
   if (object) {
-    rect = object.getBoundingClientRect() as DOMRect;
-    offsetWidth = object.offsetWidth;
-    offsetHeight = object.offsetHeight;
+    rect = object.getBoundingClientRect() as DOMRect
+    offsetWidth = object.offsetWidth
+    offsetHeight = object.offsetHeight
   }
 
   return {
@@ -49,7 +49,7 @@ function getHTMLElementState(object?: HTMLElement | null): ElementState {
     height: rect.height || 0,
     offsetHeight,
     offsetWidth,
-  };
+  }
 }
 
-export {dispatchEvent, getHTMLElementState};
+export { dispatchEvent, getHTMLElementState }

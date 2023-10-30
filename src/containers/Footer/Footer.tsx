@@ -1,13 +1,13 @@
-import React from 'react';
+import React from 'react'
 
-import {COPYRIGHT, NOTES} from '@global/constants';
-import './Footer.scss';
+import { COPYRIGHT, NOTES } from '@global/constants'
+import './Footer.scss'
 
 export interface FooterProps {
-  countOfNotes: number;
+  countOfNotes: number
 }
 
-function Footer({countOfNotes}: FooterProps) {
+function Footer({ countOfNotes }: FooterProps) {
   return (
     <footer className="footer">
       <ul className="footer__list list list--horizontal">
@@ -20,7 +20,7 @@ function Footer({countOfNotes}: FooterProps) {
 
       <span className="footer__text">{COPYRIGHT}</span>
     </footer>
-  );
+  )
 }
 
-export default Footer;
+export default Footer

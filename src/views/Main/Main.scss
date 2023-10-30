@@ -1,5 +1,5 @@
-@use '../../style/color';
-@use '../../style/variable' as *;
+@use '@style/color' as *;
+@use '@style/variable' as *;
 
 .page {
   height: 100%;

@@ -1,12 +1,12 @@
 @use 'sass:math';
-@use '../../style/color';
-@use '../../style/variable' as *;
-@use '../../style/mixin';
+@use '@style/color' as *;
+@use '@style/variable' as *;
+@use '@style/mixin' as *;
 
 .card {
-  $dark: color.$translucent;
+  $dark: $translucent;
 
-  @include mixin.card-bg-style() {
+  @include card-bg-style {
     min-width: 0;
     word-wrap: break-word;
     transition: background-color 0.2s;
@@ -18,7 +18,7 @@
     height: $drop-line-size;
     width: calc(100% + #{$card-list-offset * 2});
     border-radius: math.div($drop-line-size, 2);
-    background-color: fade-out(color.$dark, 0.5);
+    background-color: fade-out($dark, 0.5);
     position: absolute;
   }
 
@@ -69,7 +69,7 @@
   }
 
   &__id {
-    color: color.$gray;
+    color: $gray;
     font-size: 0.8em;
     vertical-align: text-bottom;
     margin-right: 0.35em;
@@ -87,7 +87,7 @@
   }
 
   // Operations with $color-list
-  @each $name, $value in color.$color-list {
+  @each $name, $value in $color-list {
     &--#{$name} {
       .card__label {
         background-color: $value;
@@ -113,7 +113,7 @@
     }
 
     // Operations with $color-list
-    @each $name, $value in color.$color-list-for-text {
+    @each $name, $value in $color-list-for-text {
       &.card--#{$name} {
         color: $value;
 
@@ -168,8 +168,10 @@
     }
   }
 
-  &:not(&--draggable):not(&--over):not(&--under) {
-    &:hover {
+  &:not(&--draggable, &--over, &--under) {
+    &:hover,
+    &:focus-within,
+    &:focus-visible {
       .card__edit-button {
         opacity: 1;
       }

@@ -1,5 +1,5 @@
-import React from 'react';
-import './Logo.scss';
+import React from 'react'
+import './Logo.scss'
 
 function Logo(props: React.SVGProps<SVGSVGElement>) {
   return (
@@ -31,7 +31,7 @@ function Logo(props: React.SVGProps<SVGSVGElement>) {
 
       <span className="logo__title">Sticky Notes</span>
     </div>
-  );
+  )
 }
 
-export default Logo;
+export default Logo

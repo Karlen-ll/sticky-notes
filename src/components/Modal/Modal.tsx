@@ -1,77 +1,77 @@
-import React, {ChangeEvent, FormEvent, MouseEvent, useCallback, useState} from 'react';
+import React, { ChangeEvent, FormEvent, MouseEvent, useCallback, useState } from 'react'
 
-import {DetailOfEditNote} from '@global/events';
-import {CustomizableKeysOfNote, EditableDataOfNote, PickerType} from '@global/notes';
-import {COLORS, DEFAULT_ICON_SIZE, DEFAULT_PICKER_VALUE, DEFAULT_TEXTAREA_ROWS, SIZES} from '@global/constants';
-import Textarea from '@components/controls/Textarea';
-import Picker from '@components/controls/Picker';
-import Input from '@components/controls/Input';
-import Button from '@components/common/Button';
-import Icon from '@components/common/Icon';
-import './Modal.scss';
+import { DetailOfEditNote } from '@global/events'
+import { CustomizableKeysOfNote, EditableDataOfNote, PickerType } from '@global/notes'
+import { COLORS, DEFAULT_ICON_SIZE, DEFAULT_PICKER_VALUE, DEFAULT_TEXTAREA_ROWS, SIZES } from '@global/constants'
+import Textarea from '@components/controls/Textarea'
+import Picker from '@components/controls/Picker'
+import Input from '@components/controls/Input'
+import Button from '@components/common/Button'
+import Icon from '@components/common/Icon'
+import './Modal.scss'
 
 export interface ModalProps {
-  data: DetailOfEditNote;
-  onSave: (data: EditableDataOfNote) => void;
-  onClose: (event: MouseEvent) => void;
+  data: DetailOfEditNote
+  onSave: (data: EditableDataOfNote) => void
+  onClose: (event: MouseEvent) => void
 }
 
 const Modal = ({
   data: {
     note,
-    state: {left: x, top: y, width},
+    state: { left: x, top: y, width },
   },
   onSave,
   onClose,
 }: ModalProps) => {
-  const [data, dataSet] = useState<EditableDataOfNote | null>({...note});
+  const [data, dataSet] = useState<EditableDataOfNote | null>({ ...note })
 
   const checkPickerValue = (value: string, key: CustomizableKeysOfNote) => {
     return {
       ...data,
       [key]: value !== DEFAULT_PICKER_VALUE ? value : undefined,
-    };
-  };
+    }
+  }
 
   const changeColor = (event: FormEvent) => {
-    dataSet(checkPickerValue((event.target as HTMLInputElement).value, PickerType.COLOR));
-  };
+    dataSet(checkPickerValue((event.target as HTMLInputElement).value, PickerType.COLOR))
+  }
 
   const changeSize = (event: FormEvent) => {
-    dataSet(checkPickerValue((event.target as HTMLInputElement).value, PickerType.SIZE));
-  };
+    dataSet(checkPickerValue((event.target as HTMLInputElement).value, PickerType.SIZE))
+  }
 
-  const handleColorPickerChange = useCallback(changeColor, [changeColor]);
-  const handleSizePickerChange = useCallback(changeSize, [changeSize]);
+  const handleColorPickerChange = useCallback(changeColor, [changeColor])
+  const handleSizePickerChange = useCallback(changeSize, [changeSize])
 
   const handleOverlayClick = useCallback(
     (event: MouseEvent) => {
       if (event.target && (event.target as HTMLDivElement).classList.contains('modal')) {
-        onClose(event);
+        onClose(event)
       }
     },
-    [onClose],
-  );
+    [onClose]
+  )
 
   const handleInputChange = useCallback(
     (event: ChangeEvent) => {
       dataSet({
         ...data,
         title: (event.target as HTMLInputElement).value,
-      });
+      })
     },
-    [data],
-  );
+    [data]
+  )
 
   const handleTextareaChange = useCallback(
     (event: ChangeEvent) => {
       dataSet({
         ...data,
         description: (event.target as HTMLInputElement).value,
-      });
+      })
     },
-    [data],
-  );
+    [data]
+  )
 
   return (
     <div className="modal" onMouseDown={handleOverlayClick}>
@@ -135,7 +135,7 @@ const Modal = ({
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Modal;
+export default Modal

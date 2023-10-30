@@ -1,8 +1,8 @@
-@use '../../../style/color';
-@use '../../../style/mixin';
+@use '@style/color' as *;
+@use '@style/mixin' as *;
 
 .input {
-  @include mixin.input-style() {
+  @include input-style {
     width: 100%;
     display: block;
     line-height: 1.25;

@@ -1,9 +1,9 @@
-import {Note, Notes} from '@global/notes';
+import { Note, Notes } from '@global/notes'
 
-const FETCH_TIME = 2000;
+const FETCH_TIME = 2000
 
 function emulateFetch<T>(data: T, wait: number = FETCH_TIME): Promise<T> {
-  return new Promise<T>(resolve => setTimeout(() => resolve(data), wait));
+  return new Promise<T>((resolve) => setTimeout(() => resolve(data), wait))
 }
 
 export function fetchNotes(): Promise<Notes> {
@@ -49,7 +49,7 @@ export function fetchNotes(): Promise<Notes> {
       color: 'blue',
       size: 'sm',
     },
-  ]);
+  ])
 }
 
 export async function fetchArchiveNotes(): Promise<Notes> {
@@ -66,10 +66,10 @@ export async function fetchArchiveNotes(): Promise<Notes> {
       description:
         'Basic Attention Token cost a constant distributed ledger at lots of unspent transaction output, however, Decred thought few private chain!',
     },
-  ]);
+  ])
 }
 
-let id = 7;
+let id = 7
 
 export async function createNotes(): Promise<Note> {
   return await emulateFetch<Note>(
@@ -77,6 +77,6 @@ export async function createNotes(): Promise<Note> {
       id: ++id,
       title: 'New note',
     },
-    FETCH_TIME / 3,
-  );
+    FETCH_TIME / 3
+  )
 }

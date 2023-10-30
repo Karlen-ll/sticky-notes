@@ -1,32 +1,32 @@
-import cx from 'classnames';
-import './Icon.scss';
+import cx from 'classnames'
+import './Icon.scss'
 
 type OnlyObjectAndUndefined = {
-  [key: string]: object | undefined;
-};
-
-interface IconProps {
-  name: 'loader' | 'close' | 'pen';
-  size?: number;
-  isActive?: boolean;
-  className?: string;
-  activeClass?: string;
+  [key: string]: object | undefined
 }
 
-const defaultIconProps = {aspectRatio: 1};
-const dataMap: OnlyObjectAndUndefined = {}; // Props by iconName
+interface IconProps {
+  name: 'loader' | 'close' | 'pen'
+  size?: number
+  isActive?: boolean
+  className?: string
+  activeClass?: string
+}
+
+const defaultIconProps = { aspectRatio: 1 }
+const dataMap: OnlyObjectAndUndefined = {} // Props by iconName
 
 const iconMap = {
   loader: (
     <>
       <circle cx="64" cy="8.6" r="8.6" />
-      <circle cx="64" cy="119.4" r="8.6" style={{opacity: 0.6}} />
-      <circle cx="8.6" cy="64" r="8.6" style={{opacity: 0.9}} />
-      <circle cx="119.4" cy="64" r="8.6" style={{opacity: 0.3}} />
+      <circle cx="64" cy="119.4" r="8.6" style={{ opacity: 0.6 }} />
+      <circle cx="8.6" cy="64" r="8.6" style={{ opacity: 0.9 }} />
+      <circle cx="119.4" cy="64" r="8.6" style={{ opacity: 0.3 }} />
       <circle cx="24.9" cy="24.9" r="8.6" />
-      <circle cx="103.1" cy="103.1" r="8.6" style={{opacity: 0.45}} />
-      <circle cx="24.9" cy="103.1" r="8.6" style={{opacity: 0.75}} />
-      <circle cx="103.1" cy="24.9" r="8.6" style={{opacity: 0.15}} />
+      <circle cx="103.1" cy="103.1" r="8.6" style={{ opacity: 0.45 }} />
+      <circle cx="24.9" cy="103.1" r="8.6" style={{ opacity: 0.75 }} />
+      <circle cx="103.1" cy="24.9" r="8.6" style={{ opacity: 0.15 }} />
     </>
   ),
   close: (
@@ -35,18 +35,18 @@ const iconMap = {
   pen: (
     <path d="M128 23.5c-.2.7-.3 1.4-.6 2-.8 1.7-1.5 3.7-2.7 5-3.3 3.6-7 6.9-10.4 10.3L87.2 13.7c3.3-3.4 6.6-7.2 10.3-10.4 4.8-4.3 13-4.2 17.8.1 3.3 3 6.4 6.2 9.5 9.4 1.9 2 2.7 4.6 3.3 7.2-.1 1.1-.1 2.3-.1 3.5zM79 21.6 106.4 49l-.9.9-68.9 68.9c-.7.7-1.8 1.3-2.7 1.5-10 2.6-20 5-30 7.5-2.7.7-4.3-1-3.7-3.7 2.5-10.1 5-20.3 7.6-30.4.2-.7.6-1.5 1.1-2C32 68.5 55.2 45.3 78.3 22.2c.2-.2.5-.4.7-.6z" />
   ),
-};
+}
 
-const Icon = ({name, size = 32, className = '', isActive = false, activeClass = 'icon--active'}: IconProps) => {
+const Icon = ({ name, size = 32, className = '', isActive = false, activeClass = 'icon--active' }: IconProps) => {
   const iconProps = {
     ...defaultIconProps,
     ...dataMap[name],
-  };
+  }
 
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      className={cx('icon', `icon--${name}`, {[activeClass as string]: isActive}, className)}
+      className={cx('icon', `icon--${name}`, { [activeClass as string]: isActive }, className)}
       viewBox="0 0 128 128"
       role="presentation"
       width={size * iconProps.aspectRatio}
@@ -54,7 +54,7 @@ const Icon = ({name, size = 32, className = '', isActive = false, activeClass = 
     >
       {iconMap[name]}
     </svg>
-  );
-};
+  )
+}
 
-export default Icon;
+export default Icon

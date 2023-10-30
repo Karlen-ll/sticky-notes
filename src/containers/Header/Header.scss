@@ -1,18 +1,19 @@
-@use '../../style/color';
-@use '../../style/mixin';
+@use '@style/color' as *;
+@use '@style/mixin' as *;
 
 .header {
   width: 100%;
   display: flex;
   justify-content: space-between;
 
-  @include mixin.header-bg-style();
+  @include header-bg-style;
 
   &__create-button {
     display: flex;
     align-items: center;
     justify-content: center;
-    border: 1px dashed color.$night;
+    border: 1px dashed $night;
+    cursor: pointer;
     padding: 0 1em;
   }
 }

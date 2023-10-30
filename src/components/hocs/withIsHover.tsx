@@ -1,23 +1,23 @@
-import React, {MouseEventHandler, useCallback, useState} from 'react';
-import {throttle} from 'lodash';
-import {THROTTLE_TIME} from '@global/constants';
+import React, { MouseEventHandler, useCallback, useState } from 'react'
+import { throttle } from 'lodash'
+import { THROTTLE_TIME } from '@global/constants'
 
 export interface WithIsHoverProps {
-  isHover?: Boolean;
-  onMouseEnter?: MouseEventHandler<HTMLElement>;
-  onMouseLeave?: MouseEventHandler<HTMLElement>;
+  isHover?: Boolean
+  onMouseEnter?: MouseEventHandler<HTMLElement>
+  onMouseLeave?: MouseEventHandler<HTMLElement>
 }
 
 export function withIsHover<T>(WrappedComponent: React.ComponentType<T>) {
-  const displayName = WrappedComponent.displayName || WrappedComponent.name || 'Component';
+  const displayName = WrappedComponent.displayName || WrappedComponent.name || 'Component'
 
   const ComponentWithTheme = (props: T) => {
-    const [isHover, isHoverSet] = useState<boolean>(false);
+    const [isHover, isHoverSet] = useState<boolean>(false)
 
-    const changeIsHover = throttle((value: boolean) => isHoverSet(value), THROTTLE_TIME);
+    const changeIsHover = throttle((value: boolean) => isHoverSet(value), THROTTLE_TIME)
 
-    const handleMouseEnter = useCallback(() => changeIsHover(true), [changeIsHover]);
-    const handleMouseLeave = useCallback(() => changeIsHover(false), [changeIsHover]);
+    const handleMouseEnter = useCallback(() => changeIsHover(true), [changeIsHover])
+    const handleMouseLeave = useCallback(() => changeIsHover(false), [changeIsHover])
 
     return (
       <WrappedComponent
@@ -26,12 +26,12 @@ export function withIsHover<T>(WrappedComponent: React.ComponentType<T>) {
         onMouseLeave={handleMouseLeave}
         {...(props as T)}
       />
-    );
-  };
+    )
+  }
 
-  ComponentWithTheme.displayName = `withIsHover(${displayName})`;
+  ComponentWithTheme.displayName = `withIsHover(${displayName})`
 
-  return ComponentWithTheme;
+  return ComponentWithTheme
 }
 
-export default withIsHover;
+export default withIsHover

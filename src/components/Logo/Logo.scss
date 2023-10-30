@@ -1,4 +1,5 @@
-@use '../../style/color';
+@use '@style/color' as *;
+@use 'sass:color';
 
 .logo {
   display: flex;
@@ -23,8 +24,8 @@
 
   &__title {
     font-size: 1.25em;
-    font-weight: bold;
-    color: color.$darkness;
+    font-weight: 700;
+    color: $darkness;
   }
 
   &:hover,
@@ -35,7 +36,7 @@
       > path {
         // border
         &:nth-child(5) {
-          fill: lighten(color.$darkness, 10%);
+          fill: color.adjust($darkness, $lightness: 10%);
         }
 
         // text
@@ -58,15 +59,19 @@
   20% {
     transform: rotate3d(0, 0, 1, 6deg);
   }
+
   40% {
     transform: rotate3d(0, 0, 1, -3deg) translateX(1px);
   }
+
   60% {
     transform: rotate3d(0, 0, 1, 8deg) translateX(2px);
   }
+
   80% {
     transform: rotate3d(0, 0, 1, -2deg) translateX(3px);
   }
+
   100% {
     transform: rotate3d(0, 0, 1, 0deg);
   }

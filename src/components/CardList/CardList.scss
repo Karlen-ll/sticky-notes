@@ -1,10 +1,10 @@
 @use 'sass:math';
-@use '../../style/color';
-@use '../../style/variable' as *;
-@use '../../style/mixin';
+@use '@style/color' as *;
+@use '@style/variable' as *;
+@use '@style/mixin' as *;
 
 .card-list {
-  @include mixin.card-list-bg-style() {
+  @include card-list-bg-style {
     width: 100%;
     height: 100%;
     max-width: 512px;
@@ -22,7 +22,7 @@
 
   &__description {
     line-height: 1;
-    color: color.$darkGray;
+    color: $darkGray;
   }
 
   &__header {
@@ -49,7 +49,7 @@
     }
 
     &--drop {
-      &:after {
+      &::after {
         content: '';
         top: -$card-list-offset;
         left: -$card-list-offset;
@@ -57,15 +57,14 @@
         bottom: 0;
         position: absolute;
         border-radius: $card-border-radius;
-        background-color: color.$translucent;
-        background: color.$pattern;
+        background: $pattern;
         opacity: 0.6;
       }
     }
   }
 
   &__loader {
-    @include mixin.card-bg-style() {
+    @include card-bg-style {
       display: flex;
       align-items: center;
       justify-content: center;

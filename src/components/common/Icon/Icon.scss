@@ -1,9 +1,9 @@
-@use '../../../style/color';
+@use '@style/color' as *;
 
 .icon {
   transition: transform 0.4s ease, opacity 0.3s;
   user-select: none;
-  fill: color.$night;
+  fill: $night;
 
   &--loader {
     transform-origin: center;

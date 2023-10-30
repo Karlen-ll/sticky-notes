@@ -1,19 +1,19 @@
-import React, {ChangeEvent, forwardRef} from 'react';
-import cx from 'classnames';
+import React, { ChangeEvent, forwardRef } from 'react'
+import cx from 'classnames'
 
-import './Input.scss';
+import './Input.scss'
 
 interface InputProps {
-  name: string;
-  value?: string;
-  label: string;
-  type: string;
-  className?: string;
-  onChange?: (event: ChangeEvent) => void | undefined;
+  name: string
+  value?: string
+  label: string
+  type: string
+  className?: string
+  onChange?: (event: ChangeEvent) => void | undefined
 }
 
 const Input = forwardRef<HTMLInputElement, InputProps>(
-  ({value, name, label, type, className, onChange, ...restProps}, ref) => {
+  ({ value, name, label, type, className, onChange, ...restProps }, ref) => {
     return (
       <label className="input__label">
         <input
@@ -27,8 +27,8 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
           {...restProps}
         />
       </label>
-    );
-  },
-);
+    )
+  }
+)
 
-export default Input;
+export default Input

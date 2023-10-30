@@ -1,5 +1,5 @@
-import React, {MouseEvent} from 'react';
-import {throttle} from 'lodash';
+import React, { MouseEvent } from 'react'
+import { throttle } from 'lodash'
 
 import {
   CREATE_NOTE_CAPTION,
@@ -8,14 +8,14 @@ import {
   NEW_NOTE_WIDTH,
   SM_THROTTLE_TIME,
   START_DRAG_EVENT,
-} from '@global/constants';
-import {dispatchEvent} from '@utils/index';
-import Logo from '@components/Logo';
-import './Header.scss';
+} from '@global/constants'
+import { dispatchEvent } from '@utils/index'
+import Logo from '@components/Logo'
+import './Header.scss'
 
 function Header() {
   const handleMouseDown = throttle((event: MouseEvent) => {
-    const {pageX: x, pageY: y} = event;
+    const { pageX: x, pageY: y } = event
 
     dispatchEvent(START_DRAG_EVENT, {
       isCreateNote: true,
@@ -28,8 +28,8 @@ function Header() {
         height: NEW_NOTE_HEIGHT,
       },
       note: NEW_NOTE_DATA,
-    });
-  }, SM_THROTTLE_TIME);
+    })
+  }, SM_THROTTLE_TIME)
 
   return (
     <header className="header">
@@ -39,7 +39,7 @@ function Header() {
         {CREATE_NOTE_CAPTION}
       </div>
     </header>
-  );
+  )
 }
 
-export default Header;
+export default Header

@@ -1,7 +1,7 @@
-import React, {FormEvent} from 'react';
-import cx from 'classnames';
+import React, { FormEvent } from 'react'
+import cx from 'classnames'
 
-import './Picker.scss';
+import './Picker.scss'
 
 function Picker({
   list,
@@ -11,12 +11,12 @@ function Picker({
   onChange,
   checkedItem = 'default',
 }: {
-  list: string[];
-  title: string;
-  type: string;
-  className?: string;
-  checkedItem?: string;
-  onChange?: (event: FormEvent) => void | undefined;
+  list: string[]
+  title: string
+  type: string
+  className?: string
+  checkedItem?: string
+  onChange?: (event: FormEvent) => void | undefined
 }) {
   return (
     <div className={cx('picker', `picker--${type}`, className)} onChange={onChange}>
@@ -24,7 +24,7 @@ function Picker({
         <legend className="picker__legend">{title}:</legend>
 
         <div className="picker__list" role="list">
-          {list.map(item => (
+          {list.map((item) => (
             <div className={`picker__item picker__item--${item}`} role="listitem" key={item}>
               <label className="picker__label">
                 <input
@@ -42,7 +42,7 @@ function Picker({
         </div>
       </fieldset>
     </div>
-  );
+  )
 }
 
-export default Picker;
+export default Picker

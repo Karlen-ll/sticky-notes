@@ -1,8 +1,8 @@
-@use '../../../style/color';
+@use '@style/color' as *;
 
 .picker {
   user-select: none;
-  color: color.$white;
+  color: $white;
 
   $size: 24px;
   $border: 2px;
@@ -36,13 +36,12 @@
 
     &--default {
       span {
-        background: color.$white;
         background: linear-gradient(
           -45deg,
-          color.$white 47%,
-          color.$darkness 47%,
-          color.$darkness 52%,
-          color.$white 52%
+          $white 47%,
+          $darkness 47%,
+          $darkness 52%,
+          $white 52%
         );
       }
     }
@@ -57,9 +56,7 @@
       height: 24px;
       display: block;
       outline-offset: 2px;
-      outline-color: transparent;
-      outline-width: 2px;
-      outline-style: solid;
+      outline: transparent solid 2px;
       transition: transform 0.25s;
       margin: 0;
     }
@@ -92,7 +89,7 @@
     }
 
     .picker__item {
-      @each $name, $value in color.$color-list {
+      @each $name, $value in $color-list {
         &--#{$name} {
           span {
             background-color: $value;
@@ -103,7 +100,7 @@
 
     .picker__input {
       &:checked ~ span {
-        outline-color: color.$white;
+        outline-color: $white;
       }
     }
   }
@@ -117,7 +114,7 @@
       width: 24px;
       height: 24px;
       text-align: center;
-      background-color: color.$black;
+      background-color: $black;
     }
 
     .picker__item {
@@ -142,7 +139,7 @@
 
     .picker__input {
       &:checked ~ span {
-        outline-color: color.$white;
+        outline-color: $white;
       }
     }
   }

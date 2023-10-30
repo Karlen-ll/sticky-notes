@@ -1,11 +1,11 @@
-@use '../../style/color';
+@use '@style/color' as *;
 
 .modal {
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background: fade-out(color.$darkness, 0.2);
+  background: fade-out($darkness, 0.2);
   position: fixed;
   z-index: 100;
 
@@ -14,7 +14,7 @@
   }
 
   &__form {
-    background-color: color.$white;
+    background-color: $white;
     display: block;
     padding: 0.75em 0.8em;
     border-radius: 0.2em;
@@ -46,7 +46,7 @@
     margin-bottom: 0.7em;
 
     .icon {
-      fill: color.$white;
+      fill: $white;
       opacity: 0.45;
     }
   }
